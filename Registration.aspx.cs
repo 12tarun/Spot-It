@@ -90,7 +90,7 @@ public partial class Registration : System.Web.UI.Page
             mm.IsBodyHtml = true;
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com";
-            smtp.EnableSsl = true; //because gmail uses https instead of http
+            smtp.EnableSsl = true;
             NetworkCredential NetworkCred = new NetworkCredential("12tarungupta@gmail.com", "1236eiTg");
             smtp.UseDefaultCredentials = true;
             smtp.Credentials = NetworkCred;
