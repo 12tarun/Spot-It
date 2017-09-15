@@ -21,6 +21,10 @@ public partial class Registration : System.Web.UI.Page
     protected void RegisterUser(object sender, EventArgs e)
     {
         int userId = 0;
+        MD5CryptoServiceProvider md5Hasher = new MD5CryptoServiceProvider();
+        Byte[] hashedBytes;
+        UTF8Encoding encoder = new UTF8Encoding();
+        hashedBytes = md5Hasher.ComputeHash(encoder.GetBytes(txtPassword.Text.Trim()));
         string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
         using (SqlConnection con = new SqlConnection(constr))
         {
@@ -30,7 +34,7 @@ public partial class Registration : System.Web.UI.Page
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Username", txtUsername.Text.Trim());
-                    cmd.Parameters.AddWithValue("@Password", Encrypt(txtPassword.Text.Trim()));
+                    cmd.Parameters.AddWithValue("@Password", hashedBytes);
                     cmd.Parameters.AddWithValue("@Email", txtEmail.Text.Trim());
                     cmd.Parameters.AddWithValue("@Verification",0);
                     cmd.Connection = con;
@@ -67,7 +71,7 @@ public partial class Registration : System.Web.UI.Page
                 using (SqlDataAdapter sda = new SqlDataAdapter())
                 {
                     cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.AddWithValue("@ActivationCode", activationCode);
+                    cmd.Parameters.AddWithValue("@ActivationCode",activationCode);
                     cmd.Connection = con;
                     con.Open();
                     cmd.ExecuteNonQuery();
@@ -93,26 +97,5 @@ public partial class Registration : System.Web.UI.Page
             smtp.Port = 587;
             smtp.Send(mm);
         }
-    }
-    private string Encrypt(string clearText)
-    {
-        string EncryptionKey = "MAKV2SPBNI99212";
-        byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
-        using (Aes encryptor = Aes.Create())
-        {
-            Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
-            encryptor.Key = pdb.GetBytes(32);
-            encryptor.IV = pdb.GetBytes(16);
-            using (MemoryStream ms = new MemoryStream())
-            {
-                using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
-                {
-                    cs.Write(clearBytes, 0, clearBytes.Length);
-                    cs.Close();
-                }
-                clearText = Convert.ToBase64String(ms.ToArray());
-            }
-        }
-        return clearText;
     }
 }
