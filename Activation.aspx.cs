@@ -7,18 +7,20 @@ public partial class Activation : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+    
         if (!this.IsPostBack)
         {
+            
             string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
-            string activationCode = !string.IsNullOrEmpty(Request.QueryString["ActivationCode"]) ? Request.QueryString["ActivationCode"] : Guid.Empty.ToString();
+            string activationCode = Request["ActivationCode"];
             using (SqlConnection con = new SqlConnection(constr))
             {
-                using (SqlCommand cmd = new SqlCommand("DELETE FROM Users WHERE ActivationCode = @ActivationCode"))
+                using (SqlCommand cmd = new SqlCommand("UPDATE Users SET Verification = @Verification WHERE ActivationCode ='"+activationCode+"'"))
                 {
                     using (SqlDataAdapter sda = new SqlDataAdapter())
                     {
                         cmd.CommandType = CommandType.Text;
-                        cmd.Parameters.AddWithValue("@ActivationCode", activationCode);
+                        cmd.Parameters.AddWithValue("@Verification",1);
                         cmd.Connection = con;
                         con.Open();
                         int rowsAffected = cmd.ExecuteNonQuery();
