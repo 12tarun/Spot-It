@@ -9,11 +9,10 @@
 <body>
     <form id="form1" runat="server">
     <div>
-        Welcome
-    <asp:LoginName ID="LoginName1" runat="server" Font-Bold = "true" />
+    <asp:Label ID="Label_username" runat="server" Text="Welcome "></asp:Label>
     <br />
     <br />
-    <asp:LoginStatus ID="LoginStatus1" runat="server" />
+    <asp:Button ID="Logout_Button" runat="server" OnClick="LogoutButton_Click" Text="Logout" Width="100px" />
     </div>
     </form>
 </body>

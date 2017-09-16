@@ -16,6 +16,10 @@ public partial class Login : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         ValidationSettings.UnobtrusiveValidationMode = UnobtrusiveValidationMode.None;
+        if(Session["New"] != null)
+        {
+            Response.Redirect("Home.aspx");
+        }
     }
 
     protected void ValidateUser(object sender, AuthenticateEventArgs e)
@@ -47,7 +51,8 @@ public partial class Login : System.Web.UI.Page
                     Login1.FailureText = "Account has not been activated.";
                     break;
                 default:
-                    FormsAuthentication.RedirectFromLoginPage(Login1.UserName, Login1.RememberMeSet);
+                    Session["New"] = Login1.UserName;
+                    Response.Redirect("Home.aspx");
                     break;
             }
         }

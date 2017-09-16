@@ -10,9 +10,19 @@ public partial class Home : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!this.Page.User.Identity.IsAuthenticated)
+        if (Session["New"] != null)
         {
-            FormsAuthentication.RedirectToLoginPage();
+            Label_username.Text += Session["New"].ToString();
         }
+        else
+        {
+            Response.Redirect("Login.aspx");
+        }
+    }
+
+    protected void LogoutButton_Click(object sender, EventArgs e)
+    {
+        Session["New"] = null;
+        Response.Redirect("Login.aspx");
     }
 }
