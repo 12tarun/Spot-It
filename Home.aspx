@@ -12,18 +12,32 @@
         }
         .domain
         {
-            margin-top:20%;
+            margin-top:10%;
             width:150px;
             height:150px;
             float:left;
             margin-left:12%;
+        }
+        .DP
+        {
+            height:200px;
+            width:150px;
+            margin-top:2%;
+            margin-left:2%;
+        }
+        .label
+        {
+            float:left;
         }
     </style>
 </head>
 <body>
     <form id="form1" runat="server">
     <div>
-    <asp:Label ID="Label_username" runat="server" Text="Welcome "></asp:Label>
+    <asp:Label CssClass="label" ID="Label_username" runat="server" Text="Welcome "></asp:Label>
+    </div>
+     <div>
+    <asp:Image CssClass="DP" ID="Profile_Pic" runat="server" />
     <asp:Button CssClass="logout" ID="Logout_Button" runat="server" OnClick="LogoutButton_Click" Text="Logout"/>
     <br />
         <asp:Button CssClass="domain" ID="Domain1" runat="server" OnClick="Domain1_Click" Text="D1" />

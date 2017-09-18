@@ -16,7 +16,7 @@ public partial class Login : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         ValidationSettings.UnobtrusiveValidationMode = UnobtrusiveValidationMode.None;
-        if(Session["New"] != null)
+        if(Session["LoggedIn"] != null)
         {
             Response.Redirect("Home.aspx");
         }
@@ -51,7 +51,7 @@ public partial class Login : System.Web.UI.Page
                     Login1.FailureText = "Account has not been activated.";
                     break;
                 default:
-                    Session["New"] = Login1.UserName;
+                    Session["LoggedIn"] = userId;
                     Response.Redirect("Home.aspx");
                     break;
             }
