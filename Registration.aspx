@@ -67,15 +67,24 @@
     </tr>
     <tr>
         <td>
+            Profile Picture
         </td>
         <td>
-            <asp:Button Text="Submit" runat="server" OnClick="RegisterUser" />
+            <asp:FileUpload ID="ProfilePicUpload" runat="server" />
         </td>
         <td>
         </td>
     </tr>
 </table>
-    
+        <asp:Button Text="Submit" runat="server" OnClick="RegisterUser" />
+        <br />
+        <br />
+        <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Login.aspx">Click here after successful registration.</asp:HyperLink>
+        <br />
+        <asp:Label ID="lblMessage" runat="server"></asp:Label>
+        <br />
+        <asp:HyperLink ID="hyperlink" runat="server">View uploaded image</asp:HyperLink>
+        <br />
     </div>
     </form>
 </body>

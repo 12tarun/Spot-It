@@ -25,4 +25,24 @@ public partial class Home : System.Web.UI.Page
         Session["New"] = null;
         Response.Redirect("Login.aspx");
     }
+
+    protected void Domain1_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void Domain2_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void Domain3_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void Domain4_Click(object sender, EventArgs e)
+    {
+
+    }
 }
