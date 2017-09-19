@@ -40,10 +40,10 @@
     <asp:Image CssClass="DP" ID="Profile_Pic" runat="server" />
     <asp:Button CssClass="logout" ID="Logout_Button" runat="server" OnClick="LogoutButton_Click" Text="Logout"/>
     <br />
-        <asp:Button CssClass="domain" ID="Domain1" runat="server" OnClick="Domain1_Click" Text="D1" />
-        <asp:Button CssClass="domain" ID="Domain2" runat="server" OnClick="Domain2_Click" Text="D2" />
-        <asp:Button CssClass="domain" ID="Domain3" runat="server" OnClick="Domain3_Click" Text="D3" />
-        <asp:Button CssClass="domain" ID="Doamin4" runat="server" OnClick="Domain4_Click" Text="D4" />
+        <asp:Button CssClass="domain" ID="Domain1" runat="server" OnClick="Domain1_Click" Text="CARTOON" />
+        <asp:Button CssClass="domain" ID="Domain2" runat="server" OnClick="Domain2_Click" Text="SUPERHERO" />
+        <asp:Button CssClass="domain" ID="Domain3" runat="server" OnClick="Domain3_Click" Text="CITY" />
+        <asp:Button CssClass="domain" ID="Doamin4" runat="server" OnClick="Domain4_Click" Text="COUNTRYSIDE" />
     <br />
     </div>
     </form>

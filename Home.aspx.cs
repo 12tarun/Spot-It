@@ -57,21 +57,21 @@ public partial class Home : System.Web.UI.Page
 
     protected void Domain1_Click(object sender, EventArgs e)
     {
-
+        Response.Redirect("Levels.aspx");
     }
 
     protected void Domain2_Click(object sender, EventArgs e)
     {
-
+        Response.Redirect("Levels.aspx");
     }
 
     protected void Domain3_Click(object sender, EventArgs e)
     {
-
+        Response.Redirect("Levels.aspx");
     }
 
     protected void Domain4_Click(object sender, EventArgs e)
     {
-
+        Response.Redirect("Levels.aspx");
     }
 }
