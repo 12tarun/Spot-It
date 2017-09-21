@@ -13,21 +13,20 @@
         .domain
         {
             margin-top:10%;
-            width:150px;
-            height:150px;
-            float:left;
-            margin-left:12%;
+            width:200px;
         }
         .DP
         {
             height:200px;
             width:150px;
-            margin-top:2%;
-            margin-left:2%;
         }
         .label
         {
             float:left;
+        }
+        .button
+        {
+            width:200px;
         }
     </style>
 </head>
@@ -35,17 +34,34 @@
     <form id="form1" runat="server">
     <div>
     <asp:Label CssClass="label" ID="lblUsername" runat="server" Text="Welcome "></asp:Label>
+<asp:Button CssClass="logout" ID="btnLogout" runat="server" OnClick="LogoutButton_Click" Text="Logout"/>
+        <br />
+        <br />
+        <asp:Image CssClass="DP" ID="ImgProfilePic" alt="No profile picture selected" runat="server" />
+        <br />
+        <br />
     </div>
-     <div>
-    <asp:Image CssClass="DP" ID="ImgProfilePic" alt="No profile picture selected" runat="server" />
-    <asp:Button CssClass="logout" ID="btnLogout" runat="server" OnClick="LogoutButton_Click" Text="Logout"/>
-    <br />
-        <asp:Button CssClass="domain" ID="btnDomain1" runat="server" OnClick="Domain1_Click" Text="CARTOON" />
-        <asp:Button CssClass="domain" ID="btnDomain2" runat="server" OnClick="Domain2_Click" Text="SUPERHERO" />
-        <asp:Button CssClass="domain" ID="btnDomain3" runat="server" OnClick="Domain3_Click" Text="CITY" />
-        <asp:Button CssClass="domain" ID="btnDomain4" runat="server" OnClick="Domain4_Click" Text="COUNTRYSIDE" />
-    <br />
-    </div>
+        <asp:Repeater ID="rptDomain" runat="server" OnItemCommand="rptDomain_ItemCommand" DataSourceID="SqlDataSource1">
+            <HeaderTemplate>
+                <table border ="0">
+                    <tr>
+                        <th class="domain" scope="col" style="width:200px;justify-content:center" >
+                            SELECT DOMAIN
+                        </th>
+                    </tr>
+            </HeaderTemplate>
+                  <itemtemplate>
+                        <tr>
+                            <td>
+                                <asp:Button CssClass="button" ID="btnDeleteDomain" runat="server" Text='<%# Eval("DomainName") %>' CommandArgument='<%# Eval("DomainName") %>' />
+                            </td>
+                        </tr>
+                  </itemtemplate>
+            <FooterTemplate>
+                </table>
+            </FooterTemplate>      
+        </asp:Repeater>
+        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:constr %>" SelectCommand="SELECT * FROM [TblDomain]"></asp:SqlDataSource>
     </form>
 </body>
 </html>

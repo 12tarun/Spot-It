@@ -7,13 +7,42 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.IO;
+using System.Text;
+using System.Web.Security;
 
 public partial class ManageDomain : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
 
+   /*     DataSet ds = GetData();
+        rptDomain.DataSource = ds;
+        rptDomain.DataBind();
+
     }
+    
+    private DataSet GetData()
+    { 
+        if (IsPostBack)
+        {
+            string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM TblDomain", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        DataSet ds = new DataSet();
+                        sda.Fill(ds);
+                        return (ds);
+                    }
+                }
+            }
+        }
+        return null; */
+    }
+
 
     protected void InsertDomain_Click(object sender, EventArgs e)
     {
@@ -33,11 +62,13 @@ public partial class ManageDomain : System.Web.UI.Page
                 }
             }
         }
+        Response.Redirect("ManageDomain.aspx");
     }
 
-    protected void DeleteDomain_Click(object sender, EventArgs e)
+    protected void rptDomain_ItemCommand(object source, RepeaterCommandEventArgs e)
     {
-        int id = Convert.ToInt32(Domain_Id.Text.Trim());
+        string id = Convert.ToString(e.CommandArgument);
+        int domId = Convert.ToInt32(id);
         string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
         using (SqlConnection con = new SqlConnection(constr))
         {
@@ -46,12 +77,13 @@ public partial class ManageDomain : System.Web.UI.Page
                 using (SqlDataAdapter sda = new SqlDataAdapter())
                 {
                     cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.AddWithValue("@ID", id);
+                    cmd.Parameters.AddWithValue("@ID", domId);
                     cmd.Connection = con;
                     con.Open();
                     cmd.ExecuteNonQuery();
                 }
             }
+            Response.Redirect("ManageDomain.aspx");
         }
     }
 }

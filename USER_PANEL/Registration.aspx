@@ -257,22 +257,22 @@ nav ul li{
         <h1>Sign Up</h1>
     <form id="form1" runat="server">
     <div>
-            <asp:TextBox ID="tbxUsername" runat="server" placeholder="Username..." />
+            <asp:TextBox ID="tbxUsername" runat="server" placeholder="Emter Username" />
         <br />
             <asp:RequiredFieldValidator ErrorMessage="Required" ForeColor="Red" ControlToValidate="tbxUsername"
                 runat="server" />
         <br />
-            <asp:TextBox ID="tbxPassword" runat="server" TextMode="Password" placeholder="Password" />
+            <asp:TextBox ID="tbxPassword" runat="server" TextMode="Password" placeholder="Enter Password" />
         <br />
             <asp:RequiredFieldValidator ErrorMessage="Required" ForeColor="Red" ControlToValidate="tbxPassword"
                 runat="server" />
         <br />
-            <asp:TextBox ID="tbxConfirmPassword" runat="server" TextMode="Password" placeholder="Confirm Password..." />
+            <asp:TextBox ID="tbxConfirmPassword" runat="server" TextMode="Password" placeholder="Re-enter Password" />
         <br />
             <asp:CompareValidator ErrorMessage="Passwords do not match." ForeColor="Red" ControlToCompare="tbxPassword"
                 ControlToValidate="tbxConfirmPassword" runat="server" />
         <br />
-            <asp:TextBox ID="tbxEmail" runat="server" placeholder="Email-Id..." />
+            <asp:TextBox ID="tbxEmail" runat="server" placeholder="Enter Email-Id" />
         <br />
             <asp:RequiredFieldValidator ErrorMessage="Required" Display="Dynamic" ForeColor="Red"
                 ControlToValidate="tbxEmail" runat="server" />

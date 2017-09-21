@@ -55,79 +55,14 @@ public partial class Home : System.Web.UI.Page
         Response.Redirect("Login.aspx");
     }
 
-    protected void Domain1_Click(object sender, EventArgs e)
+    protected void rptDomain_ItemCommand(object source, RepeaterCommandEventArgs e)
     {
         int domainId = 0;
-        string s = btnDomain1.Text.Trim();
+        string domName = Convert.ToString(e.CommandArgument);
         string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
         using (SqlConnection con = new SqlConnection(constr))
         {
-            using (SqlCommand cmd = new SqlCommand("SELECT DomainId FROM TblDomain WHERE DomainName ='"+s+"'"))
-            {
-                using (SqlDataAdapter sda = new SqlDataAdapter())
-                {
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Connection = con;
-                    con.Open();
-                    domainId = (int)cmd.ExecuteScalar();
-                }
-            }
-        }
-        Session["DOMAIN"] = domainId;
-        Response.Redirect("Levels.aspx");
-    }
-
-    protected void Domain2_Click(object sender, EventArgs e)
-    {
-        int domainId = 0;
-        string s = btnDomain2.Text.Trim();
-        string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
-        using (SqlConnection con = new SqlConnection(constr))
-        {
-            using (SqlCommand cmd = new SqlCommand("SELECT DomainId FROM TblDomain WHERE DomainName ='" + s + "'"))
-            {
-                using (SqlDataAdapter sda = new SqlDataAdapter())
-                {
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Connection = con;
-                    con.Open();
-                    domainId = (int)cmd.ExecuteScalar();
-                }
-            }
-        }
-        Session["DOMAIN"] = domainId;
-        Response.Redirect("Levels.aspx");
-    }
-
-    protected void Domain3_Click(object sender, EventArgs e)
-    {
-        int domainId = 0;
-        string s = btnDomain3.Text.Trim();
-        string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
-        using (SqlConnection con = new SqlConnection(constr))
-        {
-            using (SqlCommand cmd = new SqlCommand("SELECT DomainId FROM TblDomain WHERE DomainName ='" + s + "'"))
-            {
-                using (SqlDataAdapter sda = new SqlDataAdapter())
-                {
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Connection = con;
-                    con.Open();
-                    domainId = (int)cmd.ExecuteScalar();
-                }
-            }
-        }
-        Session["DOMAIN"] = domainId;
-        Response.Redirect("Levels.aspx");
-    }
-    protected void Domain4_Click(object sender, EventArgs e)
-    {
-        int domainId = 0;
-        string s = btnDomain4.Text.Trim();
-        string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
-        using (SqlConnection con = new SqlConnection(constr))
-        {
-            using (SqlCommand cmd = new SqlCommand("SELECT DomainId FROM TblDomain WHERE DomainName ='" + s + "'"))
+            using (SqlCommand cmd = new SqlCommand("SELECT DomainId FROM TblDomain WHERE DomainName ='" + domName + "'"))
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter())
                 {

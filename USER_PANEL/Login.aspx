@@ -235,11 +235,11 @@ nav ul li{
     <div class="sign-log-box">
         <h1>Login</h1>
       <form id="form1" runat="server">
-        <asp:TextBox ID="tbxUsername" runat="server" Width="200px" placeholder="Username..." ></asp:TextBox>
+        <asp:TextBox ID="tbxUsername" runat="server" Width="200px" placeholder="Enter Username" ></asp:TextBox>
         <br />
         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="please enter a username" ControlToValidate="tbxUsername" ForeColor="Red"></asp:RequiredFieldValidator>
         <br />
-        <asp:TextBox ID="tbxPassword" runat="server" TextMode="Password" Width="200px" placeholder="Password..."></asp:TextBox>
+        <asp:TextBox ID="tbxPassword" runat="server" TextMode="Password" Width="200px" placeholder="Enter Password"></asp:TextBox>
         <br />
         <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="tbxPassword" ErrorMessage="please enter the password" ForeColor="Red"></asp:RequiredFieldValidator>
         <br />
