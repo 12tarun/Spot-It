@@ -15,38 +15,35 @@ public partial class ManageDomain : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!IsPostBack)
+        {
+            DataSet ds = GetData();
+            rptDomainDelete.DataSource = ds;
+            rptDomainDelete.DataBind();
 
-   /*     DataSet ds = GetData();
-        rptDomain.DataSource = ds;
-        rptDomain.DataBind();
-
+            rptDomainUpdate.DataSource = ds;
+            rptDomainUpdate.DataBind();
+        }
     }
     
+
     private DataSet GetData()
-    { 
-        if (IsPostBack)
+    {
+        string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+        using (SqlConnection con = new SqlConnection(constr))
         {
-            string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
-            using (SqlConnection con = new SqlConnection(constr))
-            {
-                using (SqlCommand cmd = new SqlCommand("SELECT * FROM TblDomain", con))
-                {
-                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
-                    {
-                        DataSet ds = new DataSet();
-                        sda.Fill(ds);
-                        return (ds);
-                    }
-                }
-            }
+            SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM TblDomain", con);                
+            DataSet ds = new DataSet();
+            sda.Fill(ds);
+            return (ds);
         }
-        return null; */
     }
+                 
+               
 
 
     protected void InsertDomain_Click(object sender, EventArgs e)
     {
-        int domainId = 0;
         string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
         using (SqlConnection con = new SqlConnection(constr))
         {
@@ -58,14 +55,14 @@ public partial class ManageDomain : System.Web.UI.Page
                     cmd.Parameters.AddWithValue("@DomainName",TbxDomainName.Text.Trim());
                     cmd.Connection = con;
                     con.Open();
-                    domainId = Convert.ToInt32(cmd.ExecuteScalar());
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
         Response.Redirect("ManageDomain.aspx");
     }
 
-    protected void rptDomain_ItemCommand(object source, RepeaterCommandEventArgs e)
+    protected void rptDomain_ItemDelete(object source, RepeaterCommandEventArgs e)
     {
         string id = Convert.ToString(e.CommandArgument);
         int domId = Convert.ToInt32(id);
@@ -78,6 +75,29 @@ public partial class ManageDomain : System.Web.UI.Page
                 {
                     cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("@ID", domId);
+                    cmd.Connection = con;
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            Response.Redirect("ManageDomain.aspx");
+        }
+    }
+
+    protected void rptDomain_ItemUpdate(object source, RepeaterCommandEventArgs e)
+    {
+        string id = Convert.ToString(e.CommandArgument);
+        int domId = Convert.ToInt32(id);
+        string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+        using (SqlConnection con = new SqlConnection(constr))
+        {
+            using (SqlCommand cmd = new SqlCommand("UPDATE TblDomain SET DomainName = @DomainName WHERE DomainId = @ID"))
+            {
+                using (SqlDataAdapter sda = new SqlDataAdapter())
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.AddWithValue("@ID", domId);
+                    cmd.Parameters.AddWithValue("@DomainName",TbxUpdateDomain.Text.Trim());
                     cmd.Connection = con;
                     con.Open();
                     cmd.ExecuteNonQuery();

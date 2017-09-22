@@ -37,11 +37,15 @@
 <asp:Button CssClass="logout" ID="btnLogout" runat="server" OnClick="LogoutButton_Click" Text="Logout"/>
         <br />
         <br />
+        <h3>Profile Picture</h3>
         <asp:Image CssClass="DP" ID="ImgProfilePic" alt="No profile picture selected" runat="server" />
         <br />
         <br />
     </div>
-        <asp:Repeater ID="rptDomain" runat="server" OnItemCommand="rptDomain_ItemCommand" DataSourceID="SqlDataSource1">
+        <table>
+            <tr>
+                <td>
+        <asp:Repeater ID="rptDomainSelect" runat="server" OnItemCommand="rptDomain_ItemCommand">
             <HeaderTemplate>
                 <table border ="0">
                     <tr>
@@ -53,7 +57,7 @@
                   <itemtemplate>
                         <tr>
                             <td>
-                                <asp:Button CssClass="button" ID="btnDeleteDomain" runat="server" Text='<%# Eval("DomainName") %>' CommandArgument='<%# Eval("DomainName") %>' />
+                                <asp:Button CssClass="button" ID="btnSelectDomain" runat="server" Text='<%# Eval("DomainName") %>' CommandArgument='<%# Eval("DomainId") %>' />
                             </td>
                         </tr>
                   </itemtemplate>
@@ -61,7 +65,9 @@
                 </table>
             </FooterTemplate>      
         </asp:Repeater>
-        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:constr %>" SelectCommand="SELECT * FROM [TblDomain]"></asp:SqlDataSource>
+                    </td>
+                </tr>
+            </table>
     </form>
 </body>
 </html>

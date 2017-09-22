@@ -9,14 +9,21 @@
 <body>
     <form id="form1" runat="server">
     <div>
+        <h2>Welcome Admin !</h2>
+        <br />
     INSERT LEVEL:
     <asp:TextBox ID="TbxLevelName" runat="server"/>
-    <asp:Button ID="BtnInsertLevel" runat="server" OnClick="InsertLevel_Click" Text="OK"/>
+    <asp:RequiredFieldValidator ErrorMessage="Required" ForeColor="Red" ControlToValidate="tbxLevelName" runat="server" />
     <br />
     <br />
-    DELETE LEVEL:
-    <asp:TextBox ID="TbxLevelId" runat ="server" />
-    <asp:Button ID="BtnDeleteLevel" runat="server" OnClick="DeleteLevel_Click" Text="OK"/>
+    INSERT DOMAIN NAME:
+    <asp:TextBox ID="tbxDomainName" runat="server" />
+    <asp:RequiredFieldValidator ErrorMessage="Required" ForeColor="Red" ControlToValidate="tbxDomainName" runat="server" />
+    <br />
+    <br />
+    <asp:Button ID="BtnInsertLevel" runat="server" OnClick="InsertLevel_Click" Text="INSERT"/>
+    <br />
+    <br />
     </div>
     </form>
 </body>

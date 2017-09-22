@@ -15,6 +15,13 @@ public partial class Home : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!IsPostBack)
+        {
+            DataSet ds = GetData();
+            rptDomainSelect.DataSource = ds;
+            rptDomainSelect.DataBind();
+        }
+
         int id = Convert.ToInt32(Session["LoggedIn"]);
         string username = "";
         string imageDataString = "";
@@ -49,6 +56,18 @@ public partial class Home : System.Web.UI.Page
         }
     }
 
+    private DataSet GetData()
+    {
+        string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+        using (SqlConnection con = new SqlConnection(constr))
+        {
+            SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM TblDomain", con);
+            DataSet ds = new DataSet();
+            sda.Fill(ds);
+            return (ds);
+        }
+    }
+
     protected void LogoutButton_Click(object sender, EventArgs e)
     {
         Session["LoggedIn"] = null;
@@ -57,8 +76,9 @@ public partial class Home : System.Web.UI.Page
 
     protected void rptDomain_ItemCommand(object source, RepeaterCommandEventArgs e)
     {
-        int domainId = 0;
-        string domName = Convert.ToString(e.CommandArgument);
+        int domainId = Convert.ToInt32(e.CommandArgument);
+
+        /*string domName = Convert.ToString(e.CommandArgument);
         string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
         using (SqlConnection con = new SqlConnection(constr))
         {
@@ -72,7 +92,8 @@ public partial class Home : System.Web.UI.Page
                     domainId = (int)cmd.ExecuteScalar();
                 }
             }
-        }
+        }*/
+
         Session["DOMAIN"] = domainId;
         Response.Redirect("Levels.aspx");
     }
