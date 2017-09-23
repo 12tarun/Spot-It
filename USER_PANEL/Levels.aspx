@@ -28,15 +28,32 @@
     <asp:Button CssClass="back" ID="btnBack" OnClick="Back_Click" runat="server" Text="Back"/>
     <br />
     <br />
-        <asp:Button CssClass="level_button" ID="btnL1" OnClick="L1_Click" runat="server" Text="LEVEL 1" />
-        <br />
-        <asp:Button CssClass="level_button" ID="btnL2" Onclick="L2_Click" runat="server" Text="LEVEL 2" />
-        <br />
-        <asp:Button CssClass="level_button" ID="btnL3" Onclick="L3_Click" runat="server" Text="LEVEL 3" />
-        <br />
-        <asp:Button CssClass="level_button" ID="btnL4" Onclick="L4_Click" runat="server" Text="LEVEL 4" />
-        <br />
-        <asp:Button CssClass="level_button" ID="btnL5" Onclick="L5_Click" runat="server" Text="LEVEL 5" />
+        <table>
+            <tr>
+                <td>
+        <asp:Repeater ID="rptLevelSelect" runat="server" OnItemCommand="rptLevel_ItemSelect">
+            <HeaderTemplate>
+                <table border ="0">
+                    <tr>
+                        <th scope="col" style="width:200px;justify-content:center" >
+                            SELECT LEVEL
+                        </th>
+                    </tr>
+            </HeaderTemplate>
+                  <itemtemplate>
+                        <tr>
+                            <td>
+                                <asp:Button CssClass="button" ID="btnSelectDomain" runat="server" Text='<%# Eval("LevelName") %>' CommandArgument='<%# Eval("LevelId") %>' />
+                            </td>
+                        </tr>
+                  </itemtemplate>
+            <FooterTemplate>
+                </table>
+            </FooterTemplate>      
+        </asp:Repeater>
+                    </td>
+                </tr>
+            </table>
     </div>
     </form>
 </body>

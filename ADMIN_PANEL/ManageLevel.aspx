@@ -10,16 +10,19 @@
     <form id="form1" runat="server">
     <div>
         <h2>Welcome Admin !</h2>
+        <asp:Label ID="lblDisplayDomain" Text="You have entered in domain " Visible="true" runat="server"></asp:Label>
+        <br />
         <br />
     INSERT LEVEL:
     <asp:TextBox ID="TbxLevelName" runat="server"/>
     <asp:RequiredFieldValidator ErrorMessage="Required" ForeColor="Red" ControlToValidate="tbxLevelName" runat="server" />
     <br />
     <br />
-    INSERT DOMAIN NAME:
-    <asp:TextBox ID="tbxDomainName" runat="server" />
-    <asp:RequiredFieldValidator ErrorMessage="Required" ForeColor="Red" ControlToValidate="tbxDomainName" runat="server" />
+    UPLOAD QUESTION:
+    <asp:FileUpload ID="QuestionUpload" runat="server"/>
+    <asp:RequiredFieldValidator ErrorMessage="Required" ForeColor="Red" ControlToValidate="QuestionUpload" runat="server" />
     <br />
+    <asp:Label Id="lblWarning" ForeColor="Red" runat="server"></asp:Label>
     <br />
     <asp:Button ID="BtnInsertLevel" runat="server" OnClick="InsertLevel_Click" Text="INSERT"/>
     <br />

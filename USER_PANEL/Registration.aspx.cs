@@ -34,7 +34,7 @@ public partial class Registration : System.Web.UI.Page
         Byte[] hashedBytes;
         UTF8Encoding encoder = new UTF8Encoding();
         hashedBytes = md5Hasher.ComputeHash(encoder.GetBytes(tbxPassword.Text.Trim()));
-            if ((fileExtension.ToLower() == ".jpg" || fileExtension.ToLower() == "png") && ProfilePicUpload.HasFile == true)
+            if ((fileExtension.ToLower() == ".jpg" || fileExtension.ToLower() == ".png") && ProfilePicUpload.HasFile == true)
             {
                 Stream stream = postedFile.InputStream;
                 BinaryReader binaryReader = new BinaryReader(stream);
