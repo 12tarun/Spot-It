@@ -16,7 +16,6 @@
         }
         .level_button
         {
-            margin-top:5%;
             width:15%;
         }
     </style>
@@ -43,7 +42,7 @@
                   <itemtemplate>
                         <tr>
                             <td>
-                                <asp:Button CssClass="button" ID="btnSelectDomain" runat="server" Text='<%# Eval("LevelName") %>' CommandArgument='<%# Eval("LevelId") %>' />
+                                <asp:Button CssClass="button" ID="btnSelectDomain" runat="server" CommandName="Select" Text='<%# Eval("LevelName") %>' CommandArgument='<%# Eval("LevelId") %>' />
                             </td>
                         </tr>
                   </itemtemplate>

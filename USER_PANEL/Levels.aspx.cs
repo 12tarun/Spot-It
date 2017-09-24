@@ -64,6 +64,7 @@ public partial class Levels : System.Web.UI.Page
 
     protected void rptLevel_ItemSelect(object source, RepeaterCommandEventArgs e)
     {
+        Session["QUESTION"] = e.CommandArgument;
         Response.Redirect("PlayPage.aspx");
     }
 }
