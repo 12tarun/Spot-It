@@ -153,7 +153,7 @@ public partial class Registration : System.Web.UI.Page
                 }
             }
         }
-        using (MailMessage mm = new MailMessage("12tarungupta@gmail.com", tbxEmail.Text))
+        using (MailMessage mm = new MailMessage("tarunrocks122@gmail.com", tbxEmail.Text))
         {
             mm.Subject = "Account Activation";
             string body = "Hello " + tbxUsername.Text.Trim() + ",";
@@ -165,7 +165,7 @@ public partial class Registration : System.Web.UI.Page
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com";
             smtp.EnableSsl = true;
-            NetworkCredential NetworkCred = new NetworkCredential("12tarungupta@gmail.com", "1236eiTg");
+            NetworkCredential NetworkCred = new NetworkCredential("tarunrocks122@gmail.com", "sunshine<3.");
             smtp.UseDefaultCredentials = true;
             smtp.Credentials = NetworkCred;
             smtp.Port = 587;

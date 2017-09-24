@@ -8,26 +8,75 @@
 </head>
 <body>
     <form id="form1" runat="server">
-    <div>
-        <h2>Welcome Admin !</h2>
-        <asp:Label ID="lblDisplayDomain" Text="You have entered in domain " Visible="true" runat="server"></asp:Label>
-        <br />
-        <br />
-    INSERT LEVEL:
-    <asp:TextBox ID="TbxLevelName" runat="server"/>
-    <asp:RequiredFieldValidator ErrorMessage="Required" ForeColor="Red" ControlToValidate="tbxLevelName" runat="server" />
-    <br />
-    <br />
-    UPLOAD QUESTION:
-    <asp:FileUpload ID="QuestionUpload" runat="server"/>
-    <asp:RequiredFieldValidator ErrorMessage="Required" ForeColor="Red" ControlToValidate="QuestionUpload" runat="server" />
-    <br />
-    <asp:Label Id="lblWarning" ForeColor="Red" runat="server"></asp:Label>
-    <br />
-    <asp:Button ID="BtnInsertLevel" runat="server" OnClick="InsertLevel_Click" Text="INSERT"/>
-    <br />
-    <br />
-    </div>
+        <div>
+            <asp:Button ID="btnBack" Text="Back" runat="server" style="float:right" OnClick="btnBack_Click" />
+            <h2>Welcome Admin !</h2>
+            <asp:Label ID="lblDisplayDomain" Text="You have entered in domain " Visible="true" runat="server"></asp:Label>
+            <br />
+            <br />
+            INSERT LEVEL:
+    <asp:TextBox ID="TbxLevelName" runat="server" />
+            <asp:RequiredFieldValidator ErrorMessage="Required" ValidationGroup="insert" ForeColor="Red" ControlToValidate="TbxLevelName" runat="server" />
+            <br />
+            <br />
+            UPLOAD QUESTION:
+    <asp:FileUpload ID="flupQuestionUpload" runat="server" />
+            <asp:RequiredFieldValidator ErrorMessage="Required" ValidationGroup="insert" ForeColor="Red" ControlToValidate="flupQuestionUpload" runat="server" />
+            <br />
+            <asp:Label ID="lblWarning" ForeColor="Red" runat="server"></asp:Label>
+            <br />
+            <asp:Button ID="btnInsertLevel" runat="server" OnClick="InsertLevel_Click" Text="INSERT" />
+            <br />
+            <br />
+            <table>
+                <tr>
+                    <td>
+                        <asp:Repeater ID="rptLevelSelect" runat="server" OnItemCommand="rptLevel_ItemCommand">
+                            <HeaderTemplate>
+                                <table border="1">
+                                    <tr>
+                                        <th scope="col" style="width: 300px">Level Name
+                                        </th>
+                                        <th scope="col" style="width: 300px">Image Name
+                                        </th>
+                                        <th scope="col" style="width: 100px">Select
+                                        </th>
+
+                                    </tr>
+                            </HeaderTemplate>
+                            <ItemTemplate>
+                                <tr>
+                                    <td>
+                                        <asp:Label ID="lblLevelName" runat="server"  CommandArgument='<%# Eval("LevelName") %>' Text='<%# Eval("LevelName") %>' />
+                                        <br />
+                                        <br />
+                                        <asp:TextBox ID="TbxUpdateLevel" placeholder="Enter new name to update" runat="server" />
+                                        <asp:Button ID="btnUpdateLevel" runat="server" CommandName="UpdateLevelName" Text="UPDATE" CommandArgument='<%# Eval("LevelId") %>' />
+                                    </td>
+                                    <td>
+                                        <asp:Label ID="lblImageName" runat="server" CommandArgument='<%# Eval("ImageData") %>' Text='<%# Eval("ImageName") %>' />
+                                        <br />
+                                        <br />
+                                        <asp:FileUpload ID="flupQuestionUpdate" runat="server" />
+                                        <br />
+                                        <br />
+                                        <asp:Button ID="btnUpdateQuestion" runat="server" CommandName="UpdateQuestion" Text="UPDATE" CommandArgument='<%# Eval("LevelId") %>' />
+                                        <br />
+                                        <asp:Label ID="lblUpdateWarning" Visible="false" Text="Only .jpg or .png extensions allowed" runat="server"></asp:Label>
+                                    </td>
+                                    <td>
+                                        <asp:Button ID="btnDeleteDomain" runat="server" CommandName="Delete" Text="DELETE" CommandArgument='<%# Eval("LevelId") %>' />
+                                    </td>
+                                </tr>
+                            </ItemTemplate>
+                            <FooterTemplate>
+                                </table>
+                            </FooterTemplate>
+                        </asp:Repeater>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </form>
 </body>
 </html>

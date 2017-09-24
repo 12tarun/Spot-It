@@ -15,42 +15,71 @@ public partial class ManageLevel : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         ValidationSettings.UnobtrusiveValidationMode = UnobtrusiveValidationMode.None;
-        if(!IsPostBack)
+
+        if (Session["DOMAIN_ID"] != null)
         {
-            lblWarning.Visible = false;
+            if (!IsPostBack)
+            {
+                DataSet ds = GetData();
+                rptLevelSelect.DataSource = ds;
+                rptLevelSelect.DataBind();
+
+                domainId = Convert.ToInt32(Session["DOMAIN_ID"]);
+            
+                lblWarning.Visible = false;
+ 
+                string dom_name = "";
+                string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    using (SqlCommand cmd = new SqlCommand("SELECT DomainName FROM TblDomain WHERE DomainId='" + domainId + "'"))
+                    {
+                        using (SqlDataAdapter sda = new SqlDataAdapter())
+                        {
+                            cmd.CommandType = CommandType.Text;
+                            cmd.Connection = con;
+                            con.Open();
+                            dom_name = Convert.ToString(cmd.ExecuteScalar());
+                        }
+                    }
+                    lblDisplayDomain.Text += dom_name;
+                }
+            }
+            
         }
+        else
+        {
+            Response.Redirect("ManageDomain.aspx");
+        }
+    }
+
+    private DataSet GetData()
+    {
         domainId = Convert.ToInt32(Session["DOMAIN_ID"]);
-        string dom_name = "";
         string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
         using (SqlConnection con = new SqlConnection(constr))
         {
-            using (SqlCommand cmd = new SqlCommand("SELECT DomainName FROM TblDomain WHERE DomainId='"+domainId+"'"))
-            {
-                using (SqlDataAdapter sda = new SqlDataAdapter())
-                {
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Connection = con;
-                    con.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        dom_name = reader["DomainName"].ToString();
-                    }
-                }
-            }
+            SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM TblLevel WHERE DomainId ='"+domainId+"'", con);
+            DataSet ds = new DataSet();
+            sda.Fill(ds);
+            return (ds);
         }
-        lblDisplayDomain.Text += dom_name;
     }
-
 
     protected void InsertLevel_Click(object sender, EventArgs e)
     {
+        Page.Validate("insert");
+        if (!Page.IsValid)
+        {
+            return;
+        }
         int levelId = 0;
-        HttpPostedFile postedFile = QuestionUpload.PostedFile;
+        domainId = Convert.ToInt32(Session["DOMAIN_ID"]);
+        HttpPostedFile postedFile = flupQuestionUpload.PostedFile;
         string fileName = Path.GetFileName(postedFile.FileName);
         string fileExtension = Path.GetExtension(fileName);
         int fileSize = postedFile.ContentLength;
-        if ((fileExtension.ToLower() == ".jpg" || fileExtension.ToLower() == ".png") && QuestionUpload.HasFile == true)
+        if ((fileExtension.ToLower() == ".jpg" || fileExtension.ToLower() == ".png") && flupQuestionUpload.HasFile == true)
         {
             Stream stream = postedFile.InputStream;
             BinaryReader binaryReader = new BinaryReader(stream);
@@ -83,5 +112,106 @@ public partial class ManageLevel : System.Web.UI.Page
             lblWarning.Text = "Choose either .jpg or .png file.";
             lblWarning.ForeColor = System.Drawing.Color.Red;
         }
+    }
+
+    protected void rptLevel_ItemCommand(object source, RepeaterCommandEventArgs e)
+    {
+        string task = Convert.ToString(e.CommandName);
+        if(task =="Delete")
+        {
+            string id = Convert.ToString(e.CommandArgument);
+            int levId = Convert.ToInt32(id);
+            string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                using (SqlCommand cmd = new SqlCommand("DELETE FROM TblLevel WHERE LevelId = @ID"))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter())
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Parameters.AddWithValue("@ID", levId);
+                        cmd.Connection = con;
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                Response.Redirect("ManageLevel.aspx");
+            }
+        }
+
+        if(task == "UpdateLevelName" )
+        {
+            int rowId = (e.Item.ItemIndex);
+            TextBox TbxUpdateLevel = (TextBox)rptLevelSelect.Items[rowId].FindControl("TbxUpdateLevel");
+            string id = Convert.ToString(e.CommandArgument);
+            int levId = Convert.ToInt32(id);
+            string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                using (SqlCommand cmd = new SqlCommand("UPDATE TblLevel SET LevelName = @LevelName WHERE LevelId = @ID"))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter())
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Parameters.AddWithValue("@ID", levId);
+                        cmd.Parameters.AddWithValue("@LevelName", TbxUpdateLevel.Text.Trim());
+                        cmd.Connection = con;
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                Response.Redirect("ManageLevel.aspx");
+            }
+        }
+
+        if (task == "UpdateQuestion")
+        {
+            string id = Convert.ToString(e.CommandArgument);
+            int levId = Convert.ToInt32(id);
+            int rowId = (e.Item.ItemIndex);
+            FileUpload flupQuestionUpdate = (FileUpload)rptLevelSelect.Items[rowId].FindControl("flupQuestionUpdate");
+
+            HttpPostedFile postedFile = flupQuestionUpdate.PostedFile;
+            string fileName = Path.GetFileName(postedFile.FileName);
+            string fileExtension = Path.GetExtension(fileName);
+            int fileSize = postedFile.ContentLength;
+            if ((fileExtension.ToLower() == ".jpg" || fileExtension.ToLower() == ".png") && flupQuestionUpdate.HasFile == true)
+            {
+                Stream stream = postedFile.InputStream;
+                BinaryReader binaryReader = new BinaryReader(stream);
+                byte[] bytes = binaryReader.ReadBytes((int)stream.Length);
+
+                string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    using (SqlCommand cmd = new SqlCommand("UPDATE TblLevel SET ImageName = @ImageName, ImageSize = @ImageSize , ImageData = @ImageData  WHERE LevelId = @ID"))
+                    {
+                        using (SqlDataAdapter sda = new SqlDataAdapter())
+                        {
+                            cmd.CommandType = CommandType.Text;
+                            cmd.Parameters.AddWithValue("@ID", levId);
+                            cmd.Parameters.AddWithValue("@ImageName", fileName);
+                            cmd.Parameters.AddWithValue("@ImageSize", fileSize);
+                            cmd.Parameters.AddWithValue("ImageData", bytes);
+                            cmd.Connection = con;
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    Response.Redirect("ManageLevel.aspx");
+                }
+            }
+            else
+            {
+                Label lblUpdateWarning = (Label)rptLevelSelect.Items[rowId].FindControl("lblUpdateWarning");
+                lblUpdateWarning.Visible = true;
+                lblUpdateWarning.ForeColor = System.Drawing.Color.Red;
+            }
+        }
+    }
+
+    protected void btnBack_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("ManageDomain.aspx");
     }
 }

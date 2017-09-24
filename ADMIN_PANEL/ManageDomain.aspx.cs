@@ -21,6 +21,7 @@ public partial class ManageDomain : System.Web.UI.Page
             rptDomainSelect.DataSource = ds;
             rptDomainSelect.DataBind();
         }
+        Session["DOMAIN_ID"] = null;
     }
     
 
@@ -41,6 +42,7 @@ public partial class ManageDomain : System.Web.UI.Page
 
     protected void InsertDomain_Click(object sender, EventArgs e)
     {
+
         string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
         using (SqlConnection con = new SqlConnection(constr))
         {

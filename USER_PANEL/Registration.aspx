@@ -257,7 +257,7 @@ nav ul li{
         <h1>Sign Up</h1>
     <form id="form1" runat="server">
     <div>
-            <asp:TextBox ID="tbxUsername" runat="server" placeholder="Emter Username" />
+            <asp:TextBox ID="tbxUsername" runat="server" placeholder="Enter Username" />
         <br />
             <asp:RequiredFieldValidator ErrorMessage="Required" ForeColor="Red" ControlToValidate="tbxUsername"
                 runat="server" />
