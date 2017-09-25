@@ -37,7 +37,7 @@
             <br />
             <br />
             <h3>Profile Picture</h3>
-            <asp:Image CssClass="DP" ID="ImgProfilePic" alt="No profile picture selected" runat="server" />
+            <asp:Image CssClass="DP" ID="ImgProfilePic" AlternateText="No profile picture selected" runat="server" />
             <br />
             <br />
         </div>

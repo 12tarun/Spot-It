@@ -59,6 +59,22 @@ public partial class Login : System.Web.UI.Page
                     break;
                 default:
                     Session["LoggedIn"] = userId;
+                    int SolId = 0;
+                    int Uid = Convert.ToInt32(Session["LoggedIn"]);
+                    {
+                        using (SqlCommand cmd = new SqlCommand("Insert_Solution"))
+                        {
+                            using (SqlDataAdapter sda = new SqlDataAdapter())
+                            {
+                                cmd.CommandType = CommandType.StoredProcedure;
+                                cmd.Parameters.AddWithValue("@UserId", Uid);
+                                cmd.Connection = con;
+                                con.Open();
+                                SolId = Convert.ToInt32(cmd.ExecuteScalar());
+                            }
+                        }
+                    }
+                    Session["SOLUTION"] = SolId;
                     Response.Redirect("Home.aspx");
                     break;
             }

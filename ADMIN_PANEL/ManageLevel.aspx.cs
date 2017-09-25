@@ -117,6 +117,11 @@ public partial class ManageLevel : System.Web.UI.Page
     protected void rptLevel_ItemCommand(object source, RepeaterCommandEventArgs e)
     {
         string task = Convert.ToString(e.CommandName);
+        if(task == "Select")
+        {
+            Session["LEVID"] = e.CommandArgument;
+            Response.Redirect("ManageCoordinates.aspx");
+        }
         if(task =="Delete")
         {
             string id = Convert.ToString(e.CommandArgument);

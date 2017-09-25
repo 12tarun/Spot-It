@@ -15,18 +15,20 @@ public partial class Home : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack)
-        {
-            DataSet ds = GetData();
-            rptDomainSelect.DataSource = ds;
-            rptDomainSelect.DataBind();
-        }
 
         int id = Convert.ToInt32(Session["LoggedIn"]);
         string username = "";
         string imageDataString = "";
         if (Session["LoggedIn"] != null)
         {
+            if (!IsPostBack)
+            {
+                DataSet ds = GetData();
+                rptDomainSelect.DataSource = ds;
+                rptDomainSelect.DataBind();
+            }
+
+
             string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
             using (SqlConnection con = new SqlConnection(constr))
             {
@@ -77,23 +79,6 @@ public partial class Home : System.Web.UI.Page
     protected void rptDomain_ItemCommand(object source, RepeaterCommandEventArgs e)
     {
         int domainId = Convert.ToInt32(e.CommandArgument);
-
-        /*string domName = Convert.ToString(e.CommandArgument);
-        string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
-        using (SqlConnection con = new SqlConnection(constr))
-        {
-            using (SqlCommand cmd = new SqlCommand("SELECT DomainId FROM TblDomain WHERE DomainName ='" + domName + "'"))
-            {
-                using (SqlDataAdapter sda = new SqlDataAdapter())
-                {
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Connection = con;
-                    con.Open();
-                    domainId = (int)cmd.ExecuteScalar();
-                }
-            }
-        }*/
-
         Session["DOMAIN"] = domainId;
         Response.Redirect("Levels.aspx");
     }

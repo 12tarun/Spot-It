@@ -23,8 +23,7 @@
             margin-left: 420px;
         }
 
-        .Solution
-         {
+        .Solution {
             margin-left: 420px;
         }
     </style>
@@ -39,11 +38,8 @@
             <asp:Image CssClass="Question" ID="imgQuestion" runat="server" />
         </div>
         <div style="width: 400px; height: 500px">
-            <asp:GridView ID="GridViewSolution" runat="server" AutoGenerateColumns="false" ShowHeader="false">
-                <Columns>
-                    <asp:ImageField DataImageUrlField="Value" ControlStyle-Height="500" ControlStyle-Width="400" />
-                </Columns>
-            </asp:GridView>
+            <asp:Image CssClass="Question" ID="imgSolution" runat="server" />
+            <asp:Label ID="lblWarning" Text="WRONG IMAGE UPLOADED !" Visible="false" runat="server"></asp:Label>
         </div>
         <asp:FileUpload CssClass="fileupload" ID="fupdSolution" runat="server" />
         <asp:Button ID="btnSolutionUpload" OnClick="btnSolutionUpload_Click" Text="UPLOAD" runat="server" />
