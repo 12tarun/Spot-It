@@ -1,0 +1,63 @@
+<!DOCTYPE html> 
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="https://fonts.googleapis.com/css?family=Varela+Round|Roboto|Muli|Raleway" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="Spot-It-style.css">
+		<script src="modals.js"></script>
+	</head>
+	<body>
+		<header class="corousel-container">
+			<section class="corousel">
+				<article class="corousel-img img-1"></article>
+				<article class="corousel-img img-2"></article>
+				<article class="corousel-img img-3"></article>
+				<article class="corousel-img img-4"></article>
+				<article class="corousel-img img-5"></article>
+			</section>
+			<div  class="intro-txt">
+				<h1>SPOT <i class="fa fa-hand-pointer-o"></i>T</h1>
+			</div>
+			<div>
+				<h1 onclick="openSignModal()" class="button-txt intro-txt">Start-Here</h1>
+			</div>
+		</header>
+
+		<div id="signModal">
+			<div class="sign-log-box">
+				<i onclick="closeModal()" id="close-button" class="fa fa-times"></i>
+				<h1>SIGN-UP</h1>
+				<form>
+					<input type="text" id="txtUsername"  placeholder="Username...">
+		    		<input type="password" id="txtPassword"  placeholder="Password...">
+		    		<input type="password" id="txtConfirmPassword"  placeholder="Confirm 	Password...">
+		    		<input type="text" id="txtemail"  placeholder="Email...">
+		    		<hr>
+		    		<p>UPLOAD PROFILE-PICTURE</p>
+		    		<input type="file" id="ProfilePictureUpload">
+		    		<br>
+		    		<input type="button" value="SIGN-UP">
+		    		<hr>
+		    		<p>Already have an account</p>
+		    		<input onclick="openLogModal()" type="button" value="Login">
+				</form>
+			</div>
+		</div>
+		<div id="logModal">
+			<div class="sign-log-box">
+				<i onclick="closeModal()" id="close-button" class="fa fa-times"></i>
+				<h1>LOG-IN</h1>
+				<form>
+					<input type="text" id="Username"  placeholder="Username...">
+		    		<input type="password" id="txtPassword"  placeholder="Password...">
+		    		<br>
+  					<input type="button" value="LOG-IN">
+  					<hr>
+		    		<p>DON'T have an account</p>
+		    		<input type="button" value="Create">
+				</form>
+			</div>
+		</div>
+	</body>
+</html>
