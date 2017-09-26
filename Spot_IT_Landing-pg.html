@@ -8,21 +8,18 @@
 		<script src="modals.js"></script>
 	</head>
 	<body>
-		<header class="corousel-container">
-			<section class="corousel">
-				<article class="corousel-img img-1"></article>
-				<article class="corousel-img img-2"></article>
-				<article class="corousel-img img-3"></article>
-				<article class="corousel-img img-4"></article>
-				<article class="corousel-img img-5"></article>
-			</section>
-			<div  class="intro-txt">
-				<h1>SPOT <i class="fa fa-hand-pointer-o"></i>T</h1>
+		<div class="corousel-container">
+			<div class="corousel">
+				<div class="corousel-img img-1"></div>
+				<div class="corousel-img img-2"></div>
+				<div class="corousel-img img-3"></div>
+				<div class="corousel-img img-4"></div>
 			</div>
-			<div>
-				<h1 onclick="openSignModal()" class="button-txt intro-txt">Start-Here</h1>
+			<div  class="intro-txt-box">
+				<h1>SPOT <span><i class="fa fa-hand-pointer-o"></i>T</span></h1>
+				<h2 onclick="openLogModal()">Start-Here</h2>
 			</div>
-		</header>
+		</div>
 
 		<div id="signModal">
 			<div class="sign-log-box">
@@ -49,13 +46,16 @@
 				<i onclick="closeModal()" id="close-button" class="fa fa-times"></i>
 				<h1>LOG-IN</h1>
 				<form>
+					<div>
+						<img  src="images/user.png">
+					</div>
 					<input type="text" id="Username"  placeholder="Username...">
 		    		<input type="password" id="txtPassword"  placeholder="Password...">
 		    		<br>
   					<input type="button" value="LOG-IN">
   					<hr>
 		    		<p>DON'T have an account</p>
-		    		<input type="button" value="Create">
+		    		<input onclick="openSignModal()" type="button" value="Create">
 				</form>
 			</div>
 		</div>
