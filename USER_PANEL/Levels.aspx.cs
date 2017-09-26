@@ -66,24 +66,6 @@ public partial class Levels : System.Web.UI.Page
 
     protected void rptLevel_ItemSelect(object source, RepeaterCommandEventArgs e)
     {
-        int Sid = Convert.ToInt32(Session["SOLUTION"]);
-        int levId = Convert.ToInt32(e.CommandArgument);
-        string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
-        using (SqlConnection con = new SqlConnection(constr))
-        {
-            using (SqlCommand cmd = new SqlCommand("UPDATE TblSolution SET LevelId = @LevelId WHERE SolutionId ='" +Sid + "'"))
-            {
-                using (SqlDataAdapter sda = new SqlDataAdapter())
-                {
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.AddWithValue("@LevelId",levId);
-                    cmd.Connection = con;
-                    con.Open();
-                    cmd.ExecuteNonQuery();
-                }
-            }
-        }
-
         Session["QUESTION"] = e.CommandArgument;
         Response.Redirect("PlayPage.aspx");
     }

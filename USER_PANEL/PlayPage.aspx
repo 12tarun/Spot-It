@@ -7,8 +7,8 @@
     <title></title>
     <style>
         .Question {
-            width: 400px;
-            height: 500px;
+            width: 800px;
+            height: 450px;
         }
 
         .buttonBack {
@@ -19,30 +19,20 @@
             float: right;
         }
 
-        .fileupload {
-            margin-left: 420px;
-        }
-
-        .Solution {
-            margin-left: 420px;
-        }
     </style>
 </head>
 <body>
     <form id="form1" runat="server">
-        <div style="width: 200px; float: right">
+        <div style="width: 150px; float: right">
             <asp:Button ID="btnBack" OnClick="btnBack_Click" CssClass="buttonBack" Text="back" runat="server" />
             <asp:Button ID="btnHome" OnClick="btnHome_Click" CssClass="buttonHome" Text="Home" runat="server" />
         </div>
-        <div style="width: 400px; height: 500px">
-            <asp:Image CssClass="Question" ID="imgQuestion" runat="server" />
+        <div style="width: 500px; height: 281px">
+            <asp:ImageButton CssClass="Question" ID="imgQuestion" OnClick="imgQuestion_Click" runat="server" />
+            <br />
+            <br />
+            <asp:Label ID="lblSuccess" Text="SUCCESSFUL !" Visible="false" runat="server"></asp:Label>
         </div>
-        <div style="width: 400px; height: 500px">
-            <asp:Image CssClass="Question" ID="imgSolution" runat="server" />
-            <asp:Label ID="lblWarning" Text="WRONG IMAGE UPLOADED !" Visible="false" runat="server"></asp:Label>
-        </div>
-        <asp:FileUpload CssClass="fileupload" ID="fupdSolution" runat="server" />
-        <asp:Button ID="btnSolutionUpload" OnClick="btnSolutionUpload_Click" Text="UPLOAD" runat="server" />
     </form>
 </body>
 </html>

@@ -58,4 +58,16 @@ public partial class ADMIN_PANEL_ManageCoordinates : System.Web.UI.Page
             }
         }
     }
+
+
+
+    protected void btnBack_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("ManageLevel.aspx");
+    }
+
+    protected void btnHome_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("ManageDomain.aspx");
+    }
 }
