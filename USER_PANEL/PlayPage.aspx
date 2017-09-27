@@ -29,8 +29,8 @@
         </div>
         <div style="width: 500px; height: 281px">
             <asp:ImageButton CssClass="Question" ID="imgQuestion" OnClick="imgQuestion_Click" runat="server" />
-            <br />
-            <br />
+            <h4>SCORE:<asp:Label ID="lblScore" runat="server"></asp:Label></h4>
+            <h4>RANK:<asp:label ID="lblRank" runat="server"></asp:label></h4>
             <asp:Label ID="lblSuccess" Text="SUCCESSFUL !" Visible="false" runat="server"></asp:Label>
         </div>
     </form>

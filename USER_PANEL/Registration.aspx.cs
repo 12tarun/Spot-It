@@ -61,13 +61,24 @@ public partial class Registration : System.Web.UI.Page
                             con.Close();
                         }
                     }
+
+                    using(SqlCommand cmd2 = new SqlCommand("Insert_Score"))
+                    {
+                    using (SqlDataAdapter sda2 = new SqlDataAdapter())
+                    {
+                        cmd2.CommandType = CommandType.StoredProcedure;
+                        cmd2.Connection = con;
+                        cmd2.Parameters.AddWithValue("@UserId", userId);
+                        con.Open();
+                        cmd2.ExecuteNonQuery();
+                    }
+                    }
+
+
                     string message = string.Empty;
                     switch (userId)
                     {
                         case -1:
-                            message = "Username already exists.\\nPlease choose a different username.";
-                            break;
-                        case -2:
                             message = "Supplied email address has already been used.";
                             break;
                         default:
@@ -111,9 +122,6 @@ public partial class Registration : System.Web.UI.Page
                 switch (userId)
                 {
                     case -1:
-                        message = "Username already exists.\\nPlease choose a different username.";
-                        break;
-                    case -2:
                         message = "Supplied email address has already been used.";
                         break;
                     default:

@@ -18,6 +18,11 @@
         <asp:Button ID="btnHome" runat="server" OnClick="btnHome_Click" Text="Home" Style="float:right" />
         <div>
             <asp:ImageButton ID="imgBtnQuestion" runat="server" OnClick="imgBtnQuestion_Click" CssClass="imageButton" />
+            <br />
+            <br />
+            <asp:Label ID="lblCommand" runat="server" Text="Click on the image to update coordinates." ></asp:Label>
+            <br />
+            <asp:Label ID="lblMessage" Visible="false" Text="Coordinates updated !" runat="server"></asp:Label>
         </div>
     </form>
 </body>

@@ -7,12 +7,8 @@
 	padding: 0;
 }
 
-[class*="col-"] {
-    float: left;
-    padding: 15px;
-}
-
 #main{
+	max-width: 100vw;
 	transition: 0.5s;
 }
 
@@ -104,6 +100,7 @@ nav h1{
 
 #sideMenu h1, h4{
 	color: #EFEBE9;
+	padding: 20px;
 	font-family: 'Varela Round', sans-serif;
 }
 
@@ -138,6 +135,7 @@ nav h1{
 	margin: auto;
 	font-family: 'Varela Round', sans-serif;
 	text-align: center;
+	overflow-x: auto;
 }
 
 .table_user{
@@ -147,6 +145,19 @@ nav h1{
 	margin: auto;
 	font-family: 'Varela Round', sans-serif;
 	text-align: center;
+	overflow-x: auto;
+}
+
+#Domain-header{
+	top: 100px;
+	position: relative;
+	padding: 50px;
+	left: 10vw;
+	font-family: 'Varela Round', sans-serif;
+}
+
+#Domain-header h3, span{
+	padding: 20px;
 }
 
 th {

@@ -133,30 +133,9 @@ public partial class ManageDomain : System.Web.UI.Page
         }
     }
 
-  /*  protected void rptDomain_ItemUpdate(object source, RepeaterCommandEventArgs e)
+    protected void btnLogout_Click(object sender, EventArgs e)
     {
-        string upd = Convert.ToString(e.CommandName);
-        if (upd == "Update")
-        {
-            string id = Convert.ToString(e.CommandArgument);
-            int domId = Convert.ToInt32(id);
-            string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
-            using (SqlConnection con = new SqlConnection(constr))
-            {
-                using (SqlCommand cmd = new SqlCommand("UPDATE TblDomain SET DomainName = @DomainName WHERE DomainId = @ID"))
-                {
-                    using (SqlDataAdapter sda = new SqlDataAdapter())
-                    {
-                        cmd.CommandType = CommandType.Text;
-                        cmd.Parameters.AddWithValue("@ID", domId);
-                        cmd.Parameters.AddWithValue("@DomainName", TbxUpdateDomain.Text.Trim());
-                        cmd.Connection = con;
-                        con.Open();
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-                Response.Redirect("ManageDomain.aspx");
-            }
-        }
-    }*/
+        Session["LoggedIn"] = null;
+        Response.Redirect("~/USER_PANEL/Login.aspx");
+    }
 }

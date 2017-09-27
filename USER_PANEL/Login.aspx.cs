@@ -38,7 +38,7 @@ public partial class Login : System.Web.UI.Page
             using (SqlCommand cmd = new SqlCommand("Validate_User"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Username", tbxUsername.Text.Trim());
+                cmd.Parameters.AddWithValue("@EmailId", tbxEmailId.Text.Trim());
                 cmd.Parameters.AddWithValue("@Password", hashedBytes);
                 cmd.Connection = con;
                 con.Open();
@@ -49,13 +49,17 @@ public partial class Login : System.Web.UI.Page
             {
                 case -1:
                     lblWarning.Visible = true;
-                    lblWarning.Text = "Username and/or password is incorrect.";
+                    lblWarning.Text = "Email Id and/or password is incorrect.";
                     lblWarning.ForeColor = System.Drawing.Color.Red;
                     break;
                 case -2:
                     lblWarning.Visible = true;
                     lblWarning.Text = "Account has not been activated.";
                     lblWarning.ForeColor = System.Drawing.Color.Red;
+                    break;
+                case -3:
+                    Session["LoggedIn"] = userId;
+                    Response.Redirect("~/ADMIN_PANEL/ManageDomain.aspx");
                     break;
                 default:
                     Session["LoggedIn"] = userId;

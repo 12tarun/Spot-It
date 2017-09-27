@@ -32,9 +32,9 @@
                 <div>
                     <img src="../Images/user.png" />
                 </div>
-                <asp:TextBox ID="tbxUsername" runat="server" Width="200px" placeholder="Enter Username"></asp:TextBox>
+                <asp:TextBox ID="tbxEmailId" runat="server" Width="200px" placeholder="Enter Email Id"></asp:TextBox>
                 <br />
-                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="please enter a username" ControlToValidate="tbxUsername" ForeColor="Red"></asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="please enter an Email Id" ControlToValidate="tbxEmailId" ForeColor="Red"></asp:RequiredFieldValidator>
                 <br />
                 <asp:TextBox ID="tbxPassword" runat="server" TextMode="Password" Width="200px" placeholder="Enter Password"></asp:TextBox>
                 <br />

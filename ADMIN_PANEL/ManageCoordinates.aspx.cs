@@ -56,6 +56,8 @@ public partial class ADMIN_PANEL_ManageCoordinates : System.Web.UI.Page
                     cmd.ExecuteNonQuery();
                 }
             }
+            lblMessage.Visible = true;
+            lblMessage.ForeColor = System.Drawing.Color.Blue;
         }
     }
 

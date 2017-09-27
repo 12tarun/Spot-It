@@ -9,14 +9,19 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <asp:Button ID="btnBack" Text="Back" runat="server" style="float:right" OnClick="btnBack_Click" />
+            <asp:Button ID="btnBack" Text="Back" runat="server" Style="float: right" OnClick="btnBack_Click" />
             <h2>Welcome Admin !</h2>
             <asp:Label ID="lblDisplayDomain" Text="You have entered in domain " Visible="true" runat="server"></asp:Label>
             <br />
             <br />
-            INSERT LEVEL:
+            INSERT LEVEL NAME:
     <asp:TextBox ID="TbxLevelName" runat="server" />
             <asp:RequiredFieldValidator ErrorMessage="Required" ValidationGroup="insert" ForeColor="Red" ControlToValidate="TbxLevelName" runat="server" />
+            <br />
+            <br />
+            INSERT LEVEL NUMBER:
+            <asp:TextBox ID="TbxLevelNumber" runat="server" />
+            <asp:RequiredFieldValidator ErrorMessage="Required" ValidationGroup="insert" ForeColor="Red" ControlToValidate="TbxLevelNumber" runat="server" />
             <br />
             <br />
             UPLOAD QUESTION:
@@ -39,11 +44,11 @@
                                         </th>
                                         <th scope="col" style="width: 300px">Image Name
                                         </th>
-                                        <th scope="col" style="width: 300px">
-                                            X Coordinate
+                                        <th scope="col" style="width: 300px">X Coordinate
                                         </th>
-                                        <th scope="col" style="width: 300px">
-                                            Y Coordinate
+                                        <th scope="col" style="width: 300px">Y Coordinate
+                                        </th>
+                                        <th scope="col" style="width: 300px">Level Number
                                         </th>
                                         <th scope="col" style="width: 100px">Select
                                         </th>
@@ -53,7 +58,7 @@
                             <ItemTemplate>
                                 <tr>
                                     <td>
-                                        <asp:Label ID="lblLevelName" runat="server"  CommandArgument='<%# Eval("LevelName") %>' Text='<%# Eval("LevelName") %>' />
+                                        <asp:Label ID="lblLevelName" runat="server" CommandArgument='<%# Eval("LevelName") %>' Text='<%# Eval("LevelName") %>' />
                                         <br />
                                         <br />
                                         <asp:TextBox ID="TbxUpdateLevel" placeholder="Enter new name to update" runat="server" />
@@ -78,6 +83,13 @@
                                     <td>
                                         <asp:Label runat="server" Text='<%# Eval("Y") %>'></asp:Label>
 
+                                    </td>
+                                    <td>
+                                        <asp:Label ID="lblLevelNumber" Text='<%# Eval("LevelNumber") %>' runat="server"></asp:Label>
+                                        <br />
+                                        <br />
+                                        <asp:TextBox ID="TbxUpdateLevelNum" placeholder="Enter new number" runat="server" />
+                                        <asp:Button ID="btnUpdateLevelNum" runat="server" CommandName="UpdateLevelNum" Text="UPDATE" CommandArgument='<%# Eval("LevelId") %>' />
                                     </td>
                                     <td>
                                         <asp:Button ID="btnDeleteDomain" runat="server" CommandName="Delete" Text="DELETE" CommandArgument='<%# Eval("LevelId") %>' />

@@ -98,6 +98,7 @@ public partial class ManageLevel : System.Web.UI.Page
                         cmd.Parameters.AddWithValue("@ImageName",fileName);
                         cmd.Parameters.AddWithValue("@ImageSize",fileSize);
                         cmd.Parameters.AddWithValue("ImageData",bytes);
+                        cmd.Parameters.AddWithValue("@LevelNumber",TbxLevelNumber.Text.Trim());
                         cmd.Connection = con;
                         con.Open();
                         levelId = Convert.ToInt32(cmd.ExecuteScalar());
@@ -144,7 +145,32 @@ public partial class ManageLevel : System.Web.UI.Page
             }
         }
 
-        if(task == "UpdateLevelName" )
+        if (task == "UpdateLevelNum")
+        {
+            int rowId = (e.Item.ItemIndex);
+            TextBox TbxUpdateLevelNum = (TextBox)rptLevelSelect.Items[rowId].FindControl("TbxUpdateLevelNum");
+            string id = Convert.ToString(e.CommandArgument);
+            int levId = Convert.ToInt32(id);
+            string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                using (SqlCommand cmd = new SqlCommand("UPDATE TblLevel SET LevelNumber = @LevelNumber WHERE LevelId = @ID"))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter())
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Parameters.AddWithValue("@ID", levId);
+                        cmd.Parameters.AddWithValue("@LevelNumber", TbxUpdateLevelNum.Text.Trim());
+                        cmd.Connection = con;
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                Response.Redirect("ManageLevel.aspx");
+            }
+        }
+
+        if (task == "UpdateLevelName" )
         {
             int rowId = (e.Item.ItemIndex);
             TextBox TbxUpdateLevel = (TextBox)rptLevelSelect.Items[rowId].FindControl("TbxUpdateLevel");
