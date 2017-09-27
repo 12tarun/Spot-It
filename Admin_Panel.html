@@ -1,0 +1,70 @@
+<!DOCTYPE html> 
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="https://fonts.googleapis.com/css?family=Varela+Round|Roboto|Muli|Raleway" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="Admin_User.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<script src="sidemenu.js"></script>
+	</head>
+	<body onload="openMenu()" id="main">
+		<nav id="navBar">
+			<div>
+				<span onclick="openMenu()">
+					<i id="menu-button" class="fa fa-bars"></i>
+				</span>
+				<h1>SPOT <i class="fa fa-hand-pointer-o"></i>T</h1>
+				<p id="logout-button">LogOut</p>
+			</div>
+		</nav>
+		<div id="layer"></div>
+		<div id="sideMenu">
+			<i onclick="closeMenu()" id="close-button" class="fa fa-times"></i>
+			<h1>Welcome</h1>
+			<h1>Admin</h1>
+			<img  src="images/user.png">
+			<a href="#"><h4>Home</h4></a>
+			<a href="#"><h4>Scoreboard</h4></a>
+		</div>
+		<div>
+			<table class="table_admin">
+				<tr>
+					<th>
+						Domain Name
+					</th>
+					<th>
+						Select
+					</th>
+					<th>
+						Select
+					</th>
+				</tr>
+				<tr>
+					<td>
+						<a href="#">CARTOON</a>
+						<div><input  type="Text" name="NameUpdate" placeholder="Enter new name to update"></div>
+					</td>
+					<td>
+						<span class="button">DELETE</span>
+					</td>
+					<td>
+						<span class="button">UPDATE</span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<a href="#">SUPERHERO</a>
+						<div><input name="NameUpdate" placeholder="Enter new name to update">
+						</div>
+					</td>
+					<td>
+						<span class="button">DELETE</span>
+					</td>
+					<td>
+						<span class="button">UPDATE</span>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>
