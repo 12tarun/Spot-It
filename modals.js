@@ -1,5 +1,6 @@
 function openSignModal() {
     document.getElementById("signModal").style.width = "100vw" ;
+    document.getElementById("logModal").style.width = "0vw" ;
 }
 
 function openLogModal() {
@@ -14,6 +15,6 @@ function closeModal() {
 
 window.onclick=function(event)
 {
-	if((event.target == document.getElementById("signModal"))||(event.target == document.getElementById("logModal")))
+	if(event.target == document.getElementById("logModal"))
 		closeModal();
 }
