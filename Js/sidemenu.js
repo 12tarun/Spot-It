@@ -1,5 +1,3 @@
-setTimeout(closeMenu(),1000);
-
 function openMenu() {
 	document.getElementById("layer").style.width = "100vw";
 	if(screen.width>600)
@@ -18,5 +16,4 @@ function closeMenu() {
 	document.getElementById("layer").style.width = "0";
     document.getElementById("sideMenu").style.width = "0";
     document.getElementById("main").style.marginLeft= "0";
-    document.body.style.backgroundColor = "#fff";
 }

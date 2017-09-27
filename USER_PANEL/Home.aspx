@@ -28,44 +28,54 @@
             width: 200px;
         }
     </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round|Roboto|Muli|Raleway" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../Css/Admin_User.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 </head>
 <body>
+    <script src="../Js/sidemenu.js"></script>
     <form id="form1" runat="server">
+        <nav id="navBar">
+            <div>
+                <span onclick="openMenu()">
+                    <i id="menu-button" class="fa fa-bars"></i>
+                </span>
+                <h1>SPOT <i class="fa fa-hand-pointer-o"></i>T</h1>
+                <asp:Button CssClass="logout" ID="btnLogout" runat="server" OnClick="LogoutButton_Click" Text="Logout" />
+            </div>
+        </nav>
+
         <div>
+            <br />
+            <br />
+
             <asp:Label CssClass="label" ID="lblUsername" runat="server" Text="Welcome "></asp:Label>
-            <asp:Button CssClass="logout" ID="btnLogout" runat="server" OnClick="LogoutButton_Click" Text="Logout" />
             <br />
             <br />
-            <h3>Profile Picture</h3>
             <asp:Image CssClass="DP" ID="ImgProfilePic" AlternateText="No profile picture selected" runat="server" />
             <br />
-            <br />
+
         </div>
-        <table>
-            <tr>
-                <td>
-                    <asp:Repeater ID="rptDomainSelect" runat="server" OnItemCommand="rptDomain_ItemCommand">
-                        <HeaderTemplate>
-                            <table border="0">
-                                <tr>
-                                    <th class="domain" scope="col" style="width: 200px; justify-content: center">SELECT DOMAIN
-                                    </th>
-                                </tr>
-                        </HeaderTemplate>
-                        <ItemTemplate>
-                            <tr>
-                                <td>
-                                    <asp:Button CssClass="button" ID="btnSelectDomain" runat="server" Text='<%# Eval("DomainName") %>' CommandArgument='<%# Eval("DomainId") %>' />
-                                </td>
-                            </tr>
-                        </ItemTemplate>
-                        <FooterTemplate>
-                            </table>
-                        </FooterTemplate>
-                    </asp:Repeater>
-                </td>
-            </tr>
-        </table>
+        <asp:Repeater ID="rptDomainSelect" runat="server" OnItemCommand="rptDomain_ItemCommand">
+            <HeaderTemplate>
+                <table border="0">
+                    <tr>
+                        <th class="domain" scope="col" style="width: 200px; justify-content: center">SELECT DOMAIN
+                        </th>
+                    </tr>
+            </HeaderTemplate>
+            <ItemTemplate>
+                <tr>
+                    <td>
+                        <asp:Button CssClass="button" ID="btnSelectDomain" runat="server" Text='<%# Eval("DomainName") %>' CommandArgument='<%# Eval("DomainId") %>' />
+                    </td>
+                </tr>
+            </ItemTemplate>
+            <FooterTemplate>
+                </table>
+            </FooterTemplate>
+        </asp:Repeater>
     </form>
 </body>
 </html>

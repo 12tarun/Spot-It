@@ -145,6 +145,7 @@ public partial class PlayPage : System.Web.UI.Page
                             }
                         }
                     }
+                    Response.Redirect("PlayPage.aspx");
                 }
             }
         }
