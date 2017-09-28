@@ -1,0 +1,52 @@
+<!DOCTYPE html> 
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="https://fonts.googleapis.com/css?family=Varela+Round|Roboto|Muli|Raleway" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="Admin_User.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<script src="sidemenu.js"></script>
+	</head>
+	<body onload="openMenu()" id="main">
+		<nav id="navBar">
+			<div>
+				<span onclick="openMenu()">
+					<i id="menu-button" class="fa fa-bars"></i>
+				</span>
+				<h1>SPOT <i class="fa fa-hand-pointer-o"></i>T</h1>
+				<p id="logout-button">LogOut</p>
+			</div>
+		</nav>
+		<div id="sideMenu">
+			<i onclick="closeMenu()" id="close-button" class="fa fa-times"></i>
+			<h1>Welcome</h1>
+			<h1>User-Name</h1>
+			<img  src="images/user.png">
+			<h4>Score</h4></a>
+			<h4>Rank</h4>
+		</div>
+		<div id="layer"></div>
+		<div>
+			<table class="table_user">
+				<tr>
+					<th>
+						<h2>Select Genre</h2>
+					</th>
+				</tr>
+				<tr>
+					<td>
+						<span class="button">
+							<h3>Cartoon</span></h3>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<span class="button">
+							<h3>Superheroes</h3>
+						</span>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>

@@ -105,6 +105,7 @@ nav h1{
 #sideMenu h1, h4{
 	color: #EFEBE9;
 	font-family: 'Varela Round', sans-serif;
+	padding: 20px;
 }
 
 #sideMenu a {
@@ -147,6 +148,18 @@ nav h1{
 	margin: auto;
 	font-family: 'Varela Round', sans-serif;
 	text-align: center;
+}
+
+#Domain-header{
+	top: 100px;
+	position: relative;
+	padding: 50px;
+	left: 10vw;
+	font-family: 'Varela Round', sans-serif;
+}
+
+#Domain-header h3, span{
+	padding: 20px;
 }
 
 th {
@@ -211,7 +224,6 @@ input:focus{
 	transition: 0.5s;
 	padding: 5px;
 }
-
 .button:hover{
 	background-color: #004d40;
 	color: #f3f3f3;
