@@ -31,7 +31,8 @@
             <asp:ImageButton CssClass="Question" ID="imgQuestion" OnClick="imgQuestion_Click" runat="server" />
             <h4>SCORE:<asp:Label ID="lblScore" runat="server"></asp:Label></h4>
             <h4>RANK:<asp:label ID="lblRank" runat="server"></asp:label></h4>
-            <asp:Label ID="lblSuccess" Text="SUCCESSFUL !" Visible="false" runat="server"></asp:Label>
+            <h3><asp:Label ID="lblPlayedMessage" Visible="false" runat="server"></asp:Label></h3>
+           <h3><asp:Label ID="lblFail" Text="Wrong Answer!" Visible="false" runat="server"></asp:Label></h3>
         </div>
     </form>
 </body>

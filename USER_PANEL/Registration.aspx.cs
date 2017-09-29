@@ -90,6 +90,7 @@ public partial class Registration : System.Web.UI.Page
                             break;
                     }
                     ClientScript.RegisterStartupScript(GetType(), "alert", "alert('" + message + "');", true);
+
                 }
             }
         else if(ProfilePicUpload.HasFile == false)
