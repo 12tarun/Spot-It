@@ -14,77 +14,84 @@ public partial class PlayPage : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        string questionDataString = "";
-        if (Session["QUESTION"] != null)
+        if (Session["LoggedIn"] != null)
         {
-            int levId = Convert.ToInt32(Session["QUESTION"]);
-            string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
-            using (SqlConnection con = new SqlConnection(constr))
+            string questionDataString = "";
+            if (Session["QUESTION"] != null)
             {
-                using (SqlCommand cmd = new SqlCommand("SELECT ImageData FROM TblLevel WHERE LevelId = '" + levId + "'"))
+                int levId = Convert.ToInt32(Session["QUESTION"]);
+                string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
                 {
-                    using (SqlDataAdapter sda = new SqlDataAdapter())
+                    using (SqlCommand cmd = new SqlCommand("SELECT ImageData FROM TblLevel WHERE LevelId = '" + levId + "'"))
                     {
-                        cmd.CommandType = CommandType.Text;
-                        cmd.Connection = con;
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        while (reader.Read())
+                        using (SqlDataAdapter sda = new SqlDataAdapter())
                         {
-                            byte[] imagedata = (byte[])reader["ImageData"];
-                            questionDataString = Convert.ToBase64String(imagedata);
+                            cmd.CommandType = CommandType.Text;
+                            cmd.Connection = con;
+                            con.Open();
+                            SqlDataReader reader = cmd.ExecuteReader();
+                            while (reader.Read())
+                            {
+                                byte[] imagedata = (byte[])reader["ImageData"];
+                                questionDataString = Convert.ToBase64String(imagedata);
+                            }
                         }
                     }
                 }
-            }
-            imgQuestion.ImageUrl = "data:Image/png;base64," + questionDataString;
+                imgQuestion.ImageUrl = "data:Image/png;base64," + questionDataString;
 
-            int uId = Convert.ToInt32(Session["LoggedIn"]);
-            int score = 0;
+           /*     int uId = Convert.ToInt32(Session["LoggedIn"]);
+                int score = 0;
 
-            string constr2 = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
-            using (SqlConnection con = new SqlConnection(constr2))
-            {
-                using (SqlCommand cmd = new SqlCommand("SELECT Score FROM TblScore WHERE UserId = '" + uId + "'"))
+                string constr2 = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr2))
                 {
-                    using (SqlDataAdapter sda = new SqlDataAdapter())
+                    using (SqlCommand cmd = new SqlCommand("SELECT Score FROM TblScore WHERE UserId = '" + uId + "'"))
                     {
-                        cmd.CommandType = CommandType.Text;
-                        cmd.Connection = con;
-                        con.Open();
-                        score = Convert.ToInt32(cmd.ExecuteScalar());
+                        using (SqlDataAdapter sda = new SqlDataAdapter())
+                        {
+                            cmd.CommandType = CommandType.Text;
+                            cmd.Connection = con;
+                            con.Open();
+                            score = Convert.ToInt32(cmd.ExecuteScalar());
+                        }
                     }
                 }
-            }
-            Session["SCORE"] = score;
+                Session["SCORE"] = score;
 
-            string constr4 = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
-            using (SqlConnection con = new SqlConnection(constr4))
-            {
-                SqlDataAdapter da = new SqlDataAdapter("select Score from TblScore", con);
-                DataSet ds = new DataSet();
-                da.Fill(ds, "TblScore");
-
-                List<int> scores = new List<int>();
-                foreach (DataRow row in ds.Tables["TblScore"].Rows)
+                string constr4 = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr4))
                 {
-                    scores.Add(Convert.ToInt32(row["Score"]));
+                    SqlDataAdapter da = new SqlDataAdapter("select Score from TblScore", con);
+                    DataSet ds = new DataSet();
+                    da.Fill(ds, "TblScore");
+
+                    List<int> scores = new List<int>();
+                    foreach (DataRow row in ds.Tables["TblScore"].Rows)
+                    {
+                        scores.Add(Convert.ToInt32(row["Score"]));
+                    }
+
+                    int[] listOfScores = scores.ToArray();
+
+                    int k = 0;
+                    int countRank = 1;
+                    for (k = 0; k < listOfScores.Length; k++)
+                    {
+                        if ((Convert.ToInt32(Session["SCORE"])) < listOfScores[k])
+                            countRank++;
+                    }
+                    Session["RANK"] = countRank;
                 }
 
-                int[] listOfScores = scores.ToArray();
-
-                int k = 0;
-                int countRank = 1;
-                for (k = 0; k < listOfScores.Length; k++)
-                {
-                    if ((Convert.ToInt32(Session["SCORE"])) < listOfScores[k])
-                        countRank++;
-                }
-                Session["RANK"] = countRank;
+                lblScore.Text = score.ToString();
+                lblRank.Text = Session["RANK"].ToString(); */
             }
-
-            lblScore.Text = score.ToString();
-            lblRank.Text = Session["RANK"].ToString();
+        }
+        else
+        {
+            Response.Redirect("Login.aspx");
         }
     }
 
@@ -131,14 +138,16 @@ public partial class PlayPage : System.Web.UI.Page
                 }
             }
         }
-
         string found = "";
+        int c = 0;
         for(i=(x-20);i<=(x+20);i++)
         {
             for(j=(y-20);j<=(y+20);j++)
             {
                 if ((Xcor == i) && (Ycor == j))
                 {
+                    c = 1;
+
                     int uId = Convert.ToInt32(Session["LoggedIn"]);
 
                     string constr7 = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
@@ -203,6 +212,7 @@ public partial class PlayPage : System.Web.UI.Page
                                 }
                             }
                         }
+                        Session["SCORE"] = score;
 
                         string constr4 = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
                         using (SqlConnection con = new SqlConnection(constr4))
@@ -229,9 +239,12 @@ public partial class PlayPage : System.Web.UI.Page
                             rank = countRank;
                         }
 
+                        
+
                         string constr5 = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
                         using (SqlConnection con = new SqlConnection(constr5))
                         {
+
                             using (SqlCommand cmd = new SqlCommand("UPDATE TblScore SET Rank = @Rank  WHERE UserId='" + uId + "'"))
                             {
                                 using (SqlDataAdapter sda = new SqlDataAdapter())
@@ -244,6 +257,82 @@ public partial class PlayPage : System.Web.UI.Page
                                 }
                             }
                         }
+
+
+                        /* string constr8 = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+                         using (SqlConnection con = new SqlConnection(constr8))
+                         {
+                             using (SqlCommand cmd = new SqlCommand("SELECT Rank FROM TblScore WHERE  Score <'" + score + "'"))
+                             {
+                                 using (SqlDataAdapter sda = new SqlDataAdapter())
+                                 {
+                                     cmd.CommandType = CommandType.Text;
+                                     cmd.Parameters.AddWithValue("@Rank", rankOfOthers);
+                                     cmd.Connection = con;
+                                     con.Open();
+                                     rankOfOthers = Convert.ToInt32(cmd.ExecuteScalar()) + 1;
+                                 }
+                             }
+                         } */
+
+
+
+                        /* string constr9 = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+                         using (SqlConnection con = new SqlConnection(constr9))
+                         {
+                             using (SqlCommand cmd = new SqlCommand("UPDATE TblScore SET Rank = @Rank  WHERE Score <'" + score + "'"))
+                             {
+                                 using (SqlDataAdapter sda = new SqlDataAdapter())
+                                 {
+                                     cmd.CommandType = CommandType.Text;
+                                     cmd.Parameters.AddWithValue("@Rank", TblScore.);
+                                     cmd.Connection = con;
+                                     con.Open();
+                                     rankOfOthers = Convert.ToInt32(cmd.ExecuteScalar()) + 1;
+                                 }
+                             }
+                         } */
+
+
+                       /* string constr9 = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+                        using (SqlConnection con = new SqlConnection(constr9))
+                        {
+                            using (SqlCommand cmd = new SqlCommand("SELECT * FROM TblScore WHERE Score < '"+score+"'"))
+                            {
+                                cmd.Connection = con;
+                                using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                                {
+                                    SqlCommandBuilder cb = new SqlCommandBuilder(sda);
+
+                                    DataTable dt = new DataTable();
+                                    sda.Fill(dt);
+                                    foreach (DataRow row in dt.Rows)
+                                    {
+                                        int newRank = Convert.ToInt32(dt.Rows[3]) + 1;
+                                        row["Rank"] = newRank;
+                                    }
+
+                                }
+                            }
+                        }*/
+
+
+                        string selectStatement = "SELECT * FROM TblScore WHERE Score < '" +score+ "'";
+                        System.Data.DataTable dt = new System.Data.DataTable();
+                        SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["constr"].ConnectionString);
+                        conn.Open();
+                        SqlDataAdapter sqlDa = new SqlDataAdapter();
+                        sqlDa.SelectCommand = new SqlCommand(selectStatement, conn);
+                        SqlCommandBuilder cb = new SqlCommandBuilder(sqlDa);
+                        sqlDa.Fill(dt);
+                       foreach (DataRow row in dt.Rows)
+                       {
+                            string value = row[3].ToString();
+                            int newRank = Convert.ToInt32(value) + 1;
+                            row["Rank"] = newRank;
+                        }
+                        sqlDa.UpdateCommand = cb.GetUpdateCommand();
+                        sqlDa.Update(dt);
 
                         string constr6 = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
                         using (SqlConnection con = new SqlConnection(constr6))
@@ -262,22 +351,33 @@ public partial class PlayPage : System.Web.UI.Page
                             }
                         }
 
+                        
+                        lblPass.Visible = true;
                         lblFail.Visible = false;
-                        Response.Redirect("PlayPage.aspx");
-                    }
-                    else
-                    {
-                        lblPlayedMessage.Visible = true;
-                        lblPlayedMessage.ForeColor = Color.Red;
-                    }
-                }
+                        lblPass.Text += " You have scored " + (Lno * 10).ToString() + " points. ";
+                        lblPass.ForeColor = Color.Green;
 
-                else
-                {
-                    lblFail.Visible = true;
-                    lblFail.ForeColor = Color.Red;
+                    }
+
+                    if(found == "yes")
+                    {
+                        lblFail.Visible = false;
+                        lblPass.Visible = true;
+                        lblPass.Text = " No score added because you have already won this stage. ";
+                        lblPass.ForeColor = Color.Green;
+                    }
+
+
                 }
             }
+        }
+
+        if(c!=1)
+        {
+            lblPass.Visible = false;
+            lblFail.Visible = true;
+            lblFail.ForeColor = Color.Red;
+            c = 0;
         }
     }
 }

@@ -51,7 +51,57 @@ public partial class Home : System.Web.UI.Page
             }
             lblUsername.Text += username;
             ImgProfilePic.ImageUrl = "data:Image/png;base64," + imageDataString;
-        }
+
+            int uId = Convert.ToInt32(Session["LoggedIn"]);
+            int score = 0;
+
+            string constr2 = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr2))
+            {
+                using (SqlCommand cmd = new SqlCommand("SELECT Score FROM TblScore WHERE UserId = '" + uId + "'"))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter())
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Connection = con;
+                        con.Open();
+                        score = Convert.ToInt32(cmd.ExecuteScalar());
+                    }
+                }
+            }
+            Session["SCORE"] = score;
+
+            string constr4 = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr4))
+            {
+                SqlDataAdapter da = new SqlDataAdapter("select Score from TblScore", con);
+                DataSet ds = new DataSet();
+                da.Fill(ds, "TblScore");
+
+                List<int> scores = new List<int>();
+                foreach (DataRow row in ds.Tables["TblScore"].Rows)
+                {
+                    scores.Add(Convert.ToInt32(row["Score"]));
+                }
+
+                int[] listOfScores = scores.ToArray();
+
+                int k = 0;
+                int countRank = 1;
+                for (k = 0; k < listOfScores.Length; k++)
+                {
+                    if ((Convert.ToInt32(Session["SCORE"])) < listOfScores[k])
+                        countRank++;
+                }
+                Session["RANK"] = countRank;
+            }
+
+            lblScore.Text = score.ToString();
+            lblRank.Text = Session["RANK"].ToString();
+        
+
+
+    }
         else
         {
             Response.Redirect("Login.aspx");

@@ -53,6 +53,9 @@
             <asp:Label CssClass="label" ID="lblUsername" runat="server" Text="Welcome "></asp:Label>
             <br />
             <br />
+            <br />
+            <h4 style="color:black" >SCORE:<asp:Label ID="lblScore" runat="server"></asp:Label></h4>
+            <h4 style="color:black">RANK:<asp:label ID="lblRank" runat="server"></asp:label></h4>
             <asp:Image CssClass="DP" ID="ImgProfilePic" AlternateText="No profile picture selected" runat="server" />
             <br />
 
@@ -76,6 +79,9 @@
                 </table>
             </FooterTemplate>
         </asp:Repeater>
+
+
+
     </form>
 </body>
 </html>
