@@ -25,7 +25,7 @@ public partial class Registration : System.Web.UI.Page
     protected void RegisterUser(object sender, EventArgs e)
     {
         int userId = 0;
-        string username = "";
+        
         HttpPostedFile postedFile = ProfilePicUpload.PostedFile;
         string fileName = Path.GetFileName(postedFile.FileName);
         string fileExtension = Path.GetExtension(fileName);
@@ -63,7 +63,7 @@ public partial class Registration : System.Web.UI.Page
                         }
                     }
 
-                using (SqlCommand cmd3 = new SqlCommand("SELECT Username FROM Users WHERE UserId='"+userId+"'"))
+            /*    using (SqlCommand cmd3 = new SqlCommand("SELECT Username FROM Users WHERE UserId='"+userId+"'"))
                 {
                     using (SqlDataAdapter sda = new SqlDataAdapter())
                     {
@@ -86,7 +86,7 @@ public partial class Registration : System.Web.UI.Page
                         con.Open();
                         cmd2.ExecuteNonQuery();
                     }
-                }
+                } */
 
 
                     string message = string.Empty;
@@ -95,12 +95,16 @@ public partial class Registration : System.Web.UI.Page
                         case -1:
                             message = "Supplied email address has already been used.";
                             break;
+                        case -2:
+                        message = "Username already exists";
+                        break;
                         default:
                             message = "Registration successful. Activation email has been sent.";
                             lblMessage.Visible = true;
                             lblMessage.Text = "Image is uploaded successfully.";
                             lblMessage.ForeColor = System.Drawing.Color.Green;
                             SendActivationEmail(userId);
+                            insertUserInScore(userId);
                             break;
                     }
                     ClientScript.RegisterStartupScript(GetType(), "alert", "alert('" + message + "');", true);
@@ -134,7 +138,7 @@ public partial class Registration : System.Web.UI.Page
                     }
                 }
 
-                using (SqlCommand cmd3 = new SqlCommand("SELECT Username FROM Users WHERE UserId='" + userId + "'"))
+        /*        using (SqlCommand cmd3 = new SqlCommand("SELECT Username FROM Users WHERE UserId='" + userId + "'"))
                 {
                     using (SqlDataAdapter sda = new SqlDataAdapter())
                     {
@@ -155,9 +159,9 @@ public partial class Registration : System.Web.UI.Page
                         cmd2.Parameters.AddWithValue("@UserId", userId);
                         cmd2.Parameters.AddWithValue("@Username", username);
                         con.Open();
-                        cmd2.ExecuteNonQuery();
+                        cmd2.ExecuteNonQuery(); 
                     }
-                }
+                }  */
 
 
                 string message = string.Empty;
@@ -166,12 +170,16 @@ public partial class Registration : System.Web.UI.Page
                     case -1:
                         message = "Supplied email address has already been used.";
                         break;
+                    case -2:
+                        message = "Username already exists";
+                        break;
                     default:
                         message = "Registration successful. Activation email has been sent.";
                         lblMessage.Visible = true;
                         lblMessage.Text = "No profile picture will upload as you didn't select any.";
                         lblMessage.ForeColor = System.Drawing.Color.Green;
                         SendActivationEmail(userId);
+                        insertUserInScore(userId);
                         break;
                 }
                 ClientScript.RegisterStartupScript(GetType(), "alert", "alert('" + message + "');", true);
@@ -184,6 +192,43 @@ public partial class Registration : System.Web.UI.Page
             lblMessage.ForeColor = System.Drawing.Color.Red;
         }
     }
+
+    private void insertUserInScore(int userId)
+    {
+        string username = "";
+        int uId = userId;
+
+        string constr3 = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+        using (SqlConnection con = new SqlConnection(constr3))
+        {
+
+            using (SqlCommand cmd3 = new SqlCommand("SELECT Username FROM Users WHERE UserId='" +uId + "'"))
+            {
+                using (SqlDataAdapter sda = new SqlDataAdapter())
+                {
+                    cmd3.CommandType = CommandType.Text;
+                    cmd3.Connection = con;
+                    con.Open();
+                    username = (cmd3.ExecuteScalar()).ToString();
+                    con.Close();
+                }
+            }
+
+            using (SqlCommand cmd2 = new SqlCommand("Insert_Score"))
+            {
+                using (SqlDataAdapter sda2 = new SqlDataAdapter())
+                {
+                    cmd2.CommandType = CommandType.StoredProcedure;
+                    cmd2.Connection = con;
+                    cmd2.Parameters.AddWithValue("@UserId", uId);
+                    cmd2.Parameters.AddWithValue("@Username", username);
+                    con.Open();
+                    cmd2.ExecuteNonQuery();
+                }
+            }
+        }
+    }
+
     private void SendActivationEmail(int userId)
     {
         string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;

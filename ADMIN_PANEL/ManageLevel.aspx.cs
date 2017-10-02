@@ -16,7 +16,7 @@ public partial class ManageLevel : System.Web.UI.Page
     {
         ValidationSettings.UnobtrusiveValidationMode = UnobtrusiveValidationMode.None;
 
-        if (Session["DOMAIN_ID"] != null)
+        if (Session["LoggedIn"] != null)
         {
             if (!IsPostBack)
             {
@@ -49,7 +49,7 @@ public partial class ManageLevel : System.Web.UI.Page
         }
         else
         {
-            Response.Redirect("ManageDomain.aspx");
+            Response.Redirect("/USER_PANEL/Login.aspx");
         }
     }
 

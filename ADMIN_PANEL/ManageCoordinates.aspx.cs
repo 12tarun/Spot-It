@@ -12,28 +12,35 @@ public partial class ADMIN_PANEL_ManageCoordinates : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        string questionDataString = "";
-        int levId = Convert.ToInt32(Session["LEVID"]);
-        string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
-        using (SqlConnection con = new SqlConnection(constr))
+        if (Session["LoggedIn"] != null)
         {
-            using (SqlCommand cmd = new SqlCommand("SELECT ImageData FROM TblLevel WHERE LevelId = '" + levId + "'"))
+            string questionDataString = "";
+            int levId = Convert.ToInt32(Session["LEVID"]);
+            string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr))
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter())
+                using (SqlCommand cmd = new SqlCommand("SELECT ImageData FROM TblLevel WHERE LevelId = '" + levId + "'"))
                 {
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Connection = con;
-                    con.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
+                    using (SqlDataAdapter sda = new SqlDataAdapter())
                     {
-                        byte[] imagedata = (byte[])reader["ImageData"];
-                        questionDataString = Convert.ToBase64String(imagedata);
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Connection = con;
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            byte[] imagedata = (byte[])reader["ImageData"];
+                            questionDataString = Convert.ToBase64String(imagedata);
+                        }
                     }
                 }
             }
+            imgBtnQuestion.ImageUrl = "data:Image/png;base64," + questionDataString;
         }
-        imgBtnQuestion.ImageUrl = "data:Image/png;base64," + questionDataString;
+        else
+        {
+            Response.Redirect("/USER_PANEL/Login.aspx");
+        }
     }
 
     protected void imgBtnQuestion_Click(object sender, ImageClickEventArgs e)

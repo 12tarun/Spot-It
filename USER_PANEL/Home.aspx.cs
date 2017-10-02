@@ -28,6 +28,35 @@ public partial class Home : System.Web.UI.Page
                 rptDomainSelect.DataBind();
             }
 
+       /*     string constr3 = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr3))
+            {
+
+                using (SqlCommand cmd3 = new SqlCommand("SELECT Username FROM Users WHERE UserId='" + id + "'"))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter())
+                    {
+                        cmd3.CommandType = CommandType.Text;
+                        cmd3.Connection = con;
+                        con.Open();
+                        username = (cmd3.ExecuteScalar()).ToString();
+                        con.Close();
+                    }
+                }
+
+                using (SqlCommand cmd2 = new SqlCommand("Insert_Score"))
+                {
+                    using (SqlDataAdapter sda2 = new SqlDataAdapter())
+                    {
+                        cmd2.CommandType = CommandType.StoredProcedure;
+                        cmd2.Connection = con;
+                        cmd2.Parameters.AddWithValue("@UserId", id);
+                        cmd2.Parameters.AddWithValue("@Username", username);
+                        con.Open();
+                        cmd2.ExecuteNonQuery();
+                    }
+                }
+            } */
 
             string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
             using (SqlConnection con = new SqlConnection(constr))

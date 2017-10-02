@@ -15,13 +15,20 @@ public partial class ManageDomain : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack)
+        if (Session["LoggedIn"] != null)
         {
-            DataSet ds = GetData();
-            rptDomainSelect.DataSource = ds;
-            rptDomainSelect.DataBind();
+            if (!IsPostBack)
+            {
+                DataSet ds = GetData();
+                rptDomainSelect.DataSource = ds;
+                rptDomainSelect.DataBind();
+            }
+            Session["DOMAIN_ID"] = null;
         }
-        Session["DOMAIN_ID"] = null;
+        else
+        {
+            Response.Redirect("/USER_PANEL/Login.aspx");
+        }
     }
     
 
