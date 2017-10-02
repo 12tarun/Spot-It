@@ -43,6 +43,7 @@
                 </span>
                 <h1>SPOT <i class="fa fa-hand-pointer-o"></i>T</h1>
                 <asp:Button CssClass="logout" ID="btnLogout" runat="server" OnClick="LogoutButton_Click" Text="Logout" />
+                <asp:Button runat="server" style="float:right" ID="btnLeaderBoard" Text="Leader Board" Onclick="btnLeaderBoard_Click" />
             </div>
         </nav>
 

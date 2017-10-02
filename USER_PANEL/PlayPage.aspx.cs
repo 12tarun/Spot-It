@@ -327,9 +327,12 @@ public partial class PlayPage : System.Web.UI.Page
                         sqlDa.Fill(dt);
                        foreach (DataRow row in dt.Rows)
                        {
-                            string value = row[3].ToString();
-                            int newRank = Convert.ToInt32(value) + 1;
-                            row["Rank"] = newRank;
+                            if ((score - (Lno * 10)) < Convert.ToInt32(row[2]))
+                            {
+                                string value = row[3].ToString();
+                                int newRank = Convert.ToInt32(value) + 1;
+                                row["Rank"] = newRank;
+                            }
                         }
                         sqlDa.UpdateCommand = cb.GetUpdateCommand();
                         sqlDa.Update(dt);

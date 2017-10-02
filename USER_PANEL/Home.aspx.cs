@@ -132,4 +132,9 @@ public partial class Home : System.Web.UI.Page
         Session["DOMAIN"] = domainId;
         Response.Redirect("Levels.aspx");
     }
+
+    protected void btnLeaderBoard_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("LeaderBoard.aspx");
+    }
 }

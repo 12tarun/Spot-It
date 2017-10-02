@@ -25,6 +25,7 @@ public partial class Registration : System.Web.UI.Page
     protected void RegisterUser(object sender, EventArgs e)
     {
         int userId = 0;
+        string username = "";
         HttpPostedFile postedFile = ProfilePicUpload.PostedFile;
         string fileName = Path.GetFileName(postedFile.FileName);
         string fileExtension = Path.GetExtension(fileName);
@@ -62,17 +63,30 @@ public partial class Registration : System.Web.UI.Page
                         }
                     }
 
-                    using(SqlCommand cmd2 = new SqlCommand("Insert_Score"))
+                using (SqlCommand cmd3 = new SqlCommand("SELECT Username FROM Users WHERE UserId='"+userId+"'"))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter())
                     {
+                        cmd3.CommandType = CommandType.Text;
+                        cmd3.Connection = con;
+                        con.Open();
+                        username = (cmd3.ExecuteScalar()).ToString();
+                        con.Close();
+                    }
+                }
+
+                using (SqlCommand cmd2 = new SqlCommand("Insert_Score"))
+                {
                     using (SqlDataAdapter sda2 = new SqlDataAdapter())
                     {
                         cmd2.CommandType = CommandType.StoredProcedure;
                         cmd2.Connection = con;
                         cmd2.Parameters.AddWithValue("@UserId", userId);
+                        cmd2.Parameters.AddWithValue("@Username", username);
                         con.Open();
                         cmd2.ExecuteNonQuery();
                     }
-                    }
+                }
 
 
                     string message = string.Empty;
@@ -119,6 +133,33 @@ public partial class Registration : System.Web.UI.Page
                         con.Close();
                     }
                 }
+
+                using (SqlCommand cmd3 = new SqlCommand("SELECT Username FROM Users WHERE UserId='" + userId + "'"))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter())
+                    {
+                        cmd3.CommandType = CommandType.Text;
+                        cmd3.Connection = con;
+                        con.Open();
+                        username = (cmd3.ExecuteScalar()).ToString();
+                        con.Close();
+                    }
+                }
+
+                using (SqlCommand cmd2 = new SqlCommand("Insert_Score"))
+                {
+                    using (SqlDataAdapter sda2 = new SqlDataAdapter())
+                    {
+                        cmd2.CommandType = CommandType.StoredProcedure;
+                        cmd2.Connection = con;
+                        cmd2.Parameters.AddWithValue("@UserId", userId);
+                        cmd2.Parameters.AddWithValue("@Username", username);
+                        con.Open();
+                        cmd2.ExecuteNonQuery();
+                    }
+                }
+
+
                 string message = string.Empty;
                 switch (userId)
                 {
