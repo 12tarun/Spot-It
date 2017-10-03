@@ -58,9 +58,13 @@
                             </th>
                             <th scope="col">Image Name
                             </th>
-                            <th scope="col">X Coordinate
+                            <th scope="col">X1 Coordinate
                             </th>
-                            <th scope="col">Y Coordinate
+                            <th scope="col">Y1 Coordinate
+                            </th>
+                            <th scope="col">X2 Coordinate
+                            </th>
+                            <th scope="col">Y2 Coordinate
                             </th>
                             <th scope="col">Level Number
                             </th>
@@ -92,10 +96,17 @@
                             <asp:Label ID="lblUpdateWarning" Visible="false" Text="Only .jpg or .png extensions allowed" runat="server"></asp:Label>
                         </td>
                         <td>
-                            <asp:Label runat="server" Text='<%# Eval("X") %>'></asp:Label>
+                            <asp:Label runat="server" Text='<%# Eval("X1") %>'></asp:Label>
                         </td>
                         <td>
-                            <asp:Label runat="server" Text='<%# Eval("Y") %>'></asp:Label>
+                            <asp:Label runat="server" Text='<%# Eval("Y1") %>'></asp:Label>
+
+                        </td>
+                        <td>
+                            <asp:Label runat="server" Text='<%# Eval("X2") %>'></asp:Label>
+                        </td>
+                        <td>
+                            <asp:Label runat="server" Text='<%# Eval("Y2") %>'></asp:Label>
 
                         </td>
                         <td>

@@ -111,8 +111,10 @@ public partial class PlayPage : System.Web.UI.Page
         int levId = Convert.ToInt32(Session["QUESTION"]);
         int Xcor = Convert.ToInt32(e.X);
         int Ycor = Convert.ToInt32(e.Y);
-        int x = 0;
-        int y = 0;
+        int x1 = 0;
+        int y1 = 0;
+        int x2 = 0;
+        int y2 = 0;
         int i = 0;
         int j = 0;
         int Lno = 0;
@@ -122,7 +124,7 @@ public partial class PlayPage : System.Web.UI.Page
         string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
         using (SqlConnection con = new SqlConnection(constr))
         {
-            using (SqlCommand cmd = new SqlCommand("SELECT X , Y FROM TblLevel WHERE LevelId='" + levId + "'"))
+            using (SqlCommand cmd = new SqlCommand("SELECT X1 , Y1 , X2 , Y2 FROM TblLevel WHERE LevelId='" + levId + "'"))
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter())
                 {
@@ -132,17 +134,19 @@ public partial class PlayPage : System.Web.UI.Page
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        x = Convert.ToInt32(reader["X"]);
-                        y = Convert.ToInt32(reader["Y"]);
+                        x1 = Convert.ToInt32(reader["X1"]);
+                        y1 = Convert.ToInt32(reader["Y1"]);
+                        x2 = Convert.ToInt32(reader["X2"]);
+                        y2 = Convert.ToInt32(reader["Y2"]);
                     }
                 }
             }
         }
         string found = "";
         int c = 0;
-        for(i=(x-20);i<=(x+20);i++)
+        for(i=x1;i<=x2;i++)
         {
-            for(j=(y-20);j<=(y+20);j++)
+            for(j=y1;j<=y2;j++)
             {
                 if ((Xcor == i) && (Ycor == j))
                 {

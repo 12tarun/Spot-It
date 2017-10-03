@@ -45,19 +45,19 @@ public partial class ADMIN_PANEL_ManageCoordinates : System.Web.UI.Page
 
     protected void imgBtnQuestion_Click(object sender, ImageClickEventArgs e)
     {
-        int xcor = Convert.ToInt32(e.X);
-        int ycor = Convert.ToInt32(e.Y);
+        int x1cor = Convert.ToInt32(e.X);
+        int y1cor = Convert.ToInt32(e.Y);
         int levId = Convert.ToInt32(Session["LEVID"]);
         string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
         using (SqlConnection con = new SqlConnection(constr))
         {
-            using (SqlCommand cmd = new SqlCommand("UPDATE TblLevel SET X = @x , Y = @y WHERE LevelId = '" + levId + "'"))
+            using (SqlCommand cmd = new SqlCommand("UPDATE TblLevel SET X1 = @x1 , Y1 = @y1  WHERE LevelId = '" + levId + "'"))
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter())
                 {
                     cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.AddWithValue("@x", xcor);
-                    cmd.Parameters.AddWithValue("@y", ycor);
+                    cmd.Parameters.AddWithValue("@x1", x1cor);
+                    cmd.Parameters.AddWithValue("@y1", y1cor);
                     cmd.Connection = con;
                     con.Open();
                     cmd.ExecuteNonQuery();
