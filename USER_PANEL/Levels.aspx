@@ -6,54 +6,67 @@
 <head runat="server">
     <title></title>
     <style>
-        .back
-        {
-            float:right;
+        .back {
+            float: right;
         }
-        .label
-        {
-            float:left;
+
+        .label {
+            float: left;
         }
-        .level_button
-        {
-            width:15%;
+
+        .level_button {
+            width: 15%;
+        }
+
+        #rptLevelSelect {
+            float: left;
+            width: 40%;
         }
     </style>
 </head>
 <body>
     <form id="form1" runat="server">
-    <div>
-    <asp:Label CssClass="label" ID="lblDomain" runat="server"></asp:Label>
-    <asp:Button CssClass="back" ID="btnBack" OnClick="Back_Click" runat="server" Text="Back"/>
-    <br />
-    <br />
-        <table>
-            <tr>
-                <td>
-        <asp:Repeater ID="rptLevelSelect" runat="server" OnItemCommand="rptLevel_ItemSelect">
-            <HeaderTemplate>
-                <table border ="0">
-                    <tr>
-                        <th scope="col" style="width:200px;justify-content:center" >
-                            SELECT LEVEL
-                        </th>
-                    </tr>
-            </HeaderTemplate>
-                  <itemtemplate>
+        <asp:Button CssClass="back" ID="btnBack" OnClick="Back_Click" runat="server" Text="Back" />
+        <asp:Label CssClass="label" ID="lblDomain" runat="server"></asp:Label>
+        <br />
+        <br />
+
+        <div>
+            <div style="width: 10%; float: left">
+                <asp:Repeater ID="rptLevelSelect" runat="server" OnItemCommand="rptLevel_ItemSelect">
+                    <HeaderTemplate>
+                        <table border="1">
+                            <tr>
+                                <th scope="col" style="width: 200px; justify-content: center">SELECT LEVEL
+                                </th>
+                            </tr>
+                    </HeaderTemplate>
+                    <ItemTemplate>
                         <tr>
                             <td>
-                                <asp:Button CssClass="button" ID="btnSelectDomain" runat="server" CommandName="Select" Text='<%# Eval("LevelName") %>' CommandArgument='<%# Eval("LevelId") %>' />
+                                <asp:Button CssClass="button" ID="btnSelectDomain" runat="server" CommandName='<%# Eval("LevelNumber") %>' Text='<%# Eval("LevelName") %>' CommandArgument='<%# Eval("LevelId") %>' />
                             </td>
                         </tr>
-                  </itemtemplate>
-            <FooterTemplate>
-                </table>
-            </FooterTemplate>      
-        </asp:Repeater>
-                    </td>
-                </tr>
-            </table>
-    </div>
+                    </ItemTemplate>
+                    <FooterTemplate>
+                        </table>
+                    </FooterTemplate>
+                </asp:Repeater>
+            </div>
+            <div style="width: 30%">
+                <asp:GridView ID="grid1" runat="server" AutoGenerateColumns="False" GridLines="None">
+                    <HeaderStyle Height="28px" />
+                    <RowStyle Height="28px" />
+                    <Columns>
+                        <asp:TemplateField HeaderText="">
+                            <ItemTemplate>
+                                <asp:Label ID="lblLock" runat="server" Style="color: red" Text="Locked"></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                    </Columns>
+                </asp:GridView>
+            </div>
+        </div>
     </form>
 </body>
 </html>
