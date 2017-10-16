@@ -35,83 +35,58 @@ public partial class Registration : System.Web.UI.Page
         Byte[] hashedBytes;
         UTF8Encoding encoder = new UTF8Encoding();
         hashedBytes = md5Hasher.ComputeHash(encoder.GetBytes(tbxPassword.Text.Trim()));
-            if ((fileExtension.ToLower() == ".jpg" || fileExtension.ToLower() == ".png") && ProfilePicUpload.HasFile == true)
+        if ((fileExtension.ToLower() == ".jpg" || fileExtension.ToLower() == ".png") && ProfilePicUpload.HasFile == true)
+        {
+            Stream stream = postedFile.InputStream;
+            BinaryReader binaryReader = new BinaryReader(stream);
+            byte[] bytes = binaryReader.ReadBytes((int)stream.Length);
+
+            string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr))
             {
-                Stream stream = postedFile.InputStream;
-                BinaryReader binaryReader = new BinaryReader(stream);
-                byte[] bytes = binaryReader.ReadBytes((int)stream.Length);
-
-                string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
-                using (SqlConnection con = new SqlConnection(constr))
-                {
-                    using (SqlCommand cmd = new SqlCommand("Insert_User"))
-                    {
-                        using (SqlDataAdapter sda = new SqlDataAdapter())
-                        {
-                            cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.Parameters.AddWithValue("@Username", tbxUsername.Text.Trim());
-                            cmd.Parameters.AddWithValue("@Password", hashedBytes);
-                            cmd.Parameters.AddWithValue("@Email", tbxEmail.Text.Trim());
-                            cmd.Parameters.AddWithValue("@Verification", 0);
-                            cmd.Parameters.AddWithValue("@ImageName", fileName);
-                            cmd.Parameters.AddWithValue("ImageSize", fileSize);
-                            cmd.Parameters.AddWithValue("@ImageData", bytes);
-                            cmd.Connection = con;
-                            con.Open();
-                            userId = Convert.ToInt32(cmd.ExecuteScalar());
-                            con.Close();
-                        }
-                    }
-
-            /*    using (SqlCommand cmd3 = new SqlCommand("SELECT Username FROM Users WHERE UserId='"+userId+"'"))
+                using (SqlCommand cmd = new SqlCommand("Insert_User"))
                 {
                     using (SqlDataAdapter sda = new SqlDataAdapter())
                     {
-                        cmd3.CommandType = CommandType.Text;
-                        cmd3.Connection = con;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Username", tbxUsername.Text.Trim());
+                        cmd.Parameters.AddWithValue("@Password", hashedBytes);
+                        cmd.Parameters.AddWithValue("@Email", tbxEmail.Text.Trim());
+                        cmd.Parameters.AddWithValue("@Verification", 0);
+                        cmd.Parameters.AddWithValue("@ImageName", fileName);
+                        cmd.Parameters.AddWithValue("ImageSize", fileSize);
+                        cmd.Parameters.AddWithValue("@ImageData", bytes);
+                        cmd.Connection = con;
                         con.Open();
-                        username = (cmd3.ExecuteScalar()).ToString();
+                        userId = Convert.ToInt32(cmd.ExecuteScalar());
                         con.Close();
                     }
                 }
 
-                using (SqlCommand cmd2 = new SqlCommand("Insert_Score"))
+                string message = string.Empty;
+                switch (userId)
                 {
-                    using (SqlDataAdapter sda2 = new SqlDataAdapter())
-                    {
-                        cmd2.CommandType = CommandType.StoredProcedure;
-                        cmd2.Connection = con;
-                        cmd2.Parameters.AddWithValue("@UserId", userId);
-                        cmd2.Parameters.AddWithValue("@Username", username);
-                        con.Open();
-                        cmd2.ExecuteNonQuery();
-                    }
-                } */
-
-
-                    string message = string.Empty;
-                    switch (userId)
-                    {
-                        case -1:
-                            message = "Supplied email address has already been used.";
-                            break;
-                        case -2:
+                    case -1:
+                        message = "Supplied email address has already been used.";
+                        break;
+                    case -2:
                         message = "Username already exists";
                         break;
-                        default:
-                            message = "Registration successful. Activation email has been sent.";
-                            lblMessage.Visible = true;
-                            lblMessage.Text = "Image is uploaded successfully.";
-                            lblMessage.ForeColor = System.Drawing.Color.Green;
-                            SendActivationEmail(userId);
-                            insertUserInScore(userId);
-                            break;
-                    }
-                    ClientScript.RegisterStartupScript(GetType(), "alert", "alert('" + message + "');", true);
-
+                    default:
+                        message = "Registration successful. Activation email has been sent.";
+                        lblMessage.Visible = true;
+                        lblMessage.Text = "Image is uploaded successfully.";
+                        lblMessage.ForeColor = System.Drawing.Color.Green;
+                        SendActivationEmail(userId);
+                        insertUserInScore(userId);
+                        insertUserInUnlocked(userId);
+                        break;
                 }
+                ClientScript.RegisterStartupScript(GetType(), "alert", "alert('" + message + "');", true);
+
             }
-        else if(ProfilePicUpload.HasFile == false)
+        }
+        else if (ProfilePicUpload.HasFile == false)
         {
             Stream stream = postedFile.InputStream;
             BinaryReader binaryReader = new BinaryReader(stream);
@@ -138,30 +113,30 @@ public partial class Registration : System.Web.UI.Page
                     }
                 }
 
-        /*        using (SqlCommand cmd3 = new SqlCommand("SELECT Username FROM Users WHERE UserId='" + userId + "'"))
-                {
-                    using (SqlDataAdapter sda = new SqlDataAdapter())
-                    {
-                        cmd3.CommandType = CommandType.Text;
-                        cmd3.Connection = con;
-                        con.Open();
-                        username = (cmd3.ExecuteScalar()).ToString();
-                        con.Close();
-                    }
-                }
+                /*        using (SqlCommand cmd3 = new SqlCommand("SELECT Username FROM Users WHERE UserId='" + userId + "'"))
+                        {
+                            using (SqlDataAdapter sda = new SqlDataAdapter())
+                            {
+                                cmd3.CommandType = CommandType.Text;
+                                cmd3.Connection = con;
+                                con.Open();
+                                username = (cmd3.ExecuteScalar()).ToString();
+                                con.Close();
+                            }
+                        }
 
-                using (SqlCommand cmd2 = new SqlCommand("Insert_Score"))
-                {
-                    using (SqlDataAdapter sda2 = new SqlDataAdapter())
-                    {
-                        cmd2.CommandType = CommandType.StoredProcedure;
-                        cmd2.Connection = con;
-                        cmd2.Parameters.AddWithValue("@UserId", userId);
-                        cmd2.Parameters.AddWithValue("@Username", username);
-                        con.Open();
-                        cmd2.ExecuteNonQuery(); 
-                    }
-                }  */
+                        using (SqlCommand cmd2 = new SqlCommand("Insert_Score"))
+                        {
+                            using (SqlDataAdapter sda2 = new SqlDataAdapter())
+                            {
+                                cmd2.CommandType = CommandType.StoredProcedure;
+                                cmd2.Connection = con;
+                                cmd2.Parameters.AddWithValue("@UserId", userId);
+                                cmd2.Parameters.AddWithValue("@Username", username);
+                                con.Open();
+                                cmd2.ExecuteNonQuery(); 
+                            }
+                        }  */
 
 
                 string message = string.Empty;
@@ -180,6 +155,7 @@ public partial class Registration : System.Web.UI.Page
                         lblMessage.ForeColor = System.Drawing.Color.Green;
                         SendActivationEmail(userId);
                         insertUserInScore(userId);
+                        insertUserInUnlocked(userId);
                         break;
                 }
                 ClientScript.RegisterStartupScript(GetType(), "alert", "alert('" + message + "');", true);
@@ -265,6 +241,65 @@ public partial class Registration : System.Web.UI.Page
             smtp.Credentials = NetworkCred;
             smtp.Port = 587;
             smtp.Send(mm);
+        }
+    }
+
+    private void insertUserInUnlocked(int userId)
+    {
+        int totalDomains = 0;
+        Session["UNLOCKED"] = 0;
+        string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+        using (SqlConnection con = new SqlConnection(constr))
+        {
+            using (SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM TblDomain"))
+            {
+                using (SqlDataAdapter sda = new SqlDataAdapter())
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Connection = con;
+                    con.Open();
+                    totalDomains = (int)cmd.ExecuteScalar();
+                    con.Close();
+                }
+            }
+
+            int[] arrOfDomains = new int[totalDomains];
+            int i = 0;
+            using (SqlCommand cmd = new SqlCommand("SELECT * FROM TblDomain"))
+            {
+                using (SqlDataAdapter sda = new SqlDataAdapter())
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Connection = con;
+                    con.Open();
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        arrOfDomains[i] = Convert.ToInt32(rdr["DomainId"]);
+                        i++;
+                    }
+                    con.Close();
+                }
+            }
+
+            int j = 0;
+            for (j = 0; j < totalDomains; j++)
+            {
+                using (SqlCommand cmd = new SqlCommand("Insert_Unlocked"))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter())
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@UserId", userId);
+                        cmd.Parameters.AddWithValue("@DomainId", arrOfDomains[j]);
+                        cmd.Parameters.AddWithValue("@LevelUnlocked", 0);
+                        cmd.Connection = con;
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                    }
+                }
+            }
         }
     }
 }

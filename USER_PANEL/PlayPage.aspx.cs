@@ -153,6 +153,7 @@ public partial class PlayPage : System.Web.UI.Page
                     c = 1;
 
                     int uId = Convert.ToInt32(Session["LoggedIn"]);
+                    int dId = Convert.ToInt32(Session["DOMAIN"]);
 
                     string constr7 = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
                     using (SqlConnection con = new SqlConnection(constr7))
@@ -198,8 +199,23 @@ public partial class PlayPage : System.Web.UI.Page
                             }
                         }
 
-                        score = score + (Lno * 10);
+                       score = score + (Lno * 10);
 
+                       string constr10 = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+                       using (SqlConnection con = new SqlConnection(constr10))
+                        {
+                            using (SqlCommand cmd = new SqlCommand("UPDATE TblUnlocked SET LevelUnlocked = @LevelUnLocked WHERE UserId='"+uId+"'AND DomainId='"+dId+"'"))
+                            {
+                                using (SqlDataAdapter sda = new SqlDataAdapter())
+                                {
+                                    cmd.CommandType = CommandType.Text;
+                                    cmd.Parameters.AddWithValue("@LevelUnlocked", Lno);
+                                    cmd.Connection = con;
+                                    con.Open();
+                                    cmd.ExecuteScalar();
+                                }
+                            }
+                        } 
 
                         string constr3 = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
                         using (SqlConnection con = new SqlConnection(constr3))

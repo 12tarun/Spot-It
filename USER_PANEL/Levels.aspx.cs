@@ -24,11 +24,11 @@ public partial class Levels : System.Web.UI.Page
         if (Session["LoggedIn"] != null)
         {
             int id = Convert.ToInt32(Session["DOMAIN"]);
-            int LastLevel = 0;
+            int uId = Convert.ToInt32(Session["LoggedIn"]);
             string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
             using (SqlConnection con = new SqlConnection(constr))
             {
-                using (SqlCommand cmd = new SqlCommand("SELECT LevelNumber FROM TblLevel WHERE DomainId='" +id+ "'", con))
+                using (SqlCommand cmd = new SqlCommand("SELECT LevelNumber FROM TblLevel WHERE DomainId='" + id + "'", con))
                 {
                     DataTable dt = new DataTable();
                     dt.Columns.Add("LevelNumber");
@@ -40,34 +40,43 @@ public partial class Levels : System.Web.UI.Page
                         DataRow dr = dt.NewRow();
                         dr["LevelNumber"] = rdr["LevelNumber"];
                         dt.Rows.Add(dr);
-                        LastLevel = Convert.ToInt32(rdr["LevelNumber"]);
                     }
-                    
+
                     grid1.DataSource = dt;
                     grid1.DataBind();
                 }
+            }
 
-                int i = 0;
-                Session["LASTLEVEL"] = LastLevel;
-                for (i = 0; i < LastLevel; i++)
+            int LevUnlock = 0;
+            string constr3 = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr3))
+            {
+                using (SqlCommand cmd = new SqlCommand("SELECT LevelUnlocked FROM TblUnlocked WHERE DomainId='" + id + "' AND UserId='"+uId+"'"))
                 {
-                    GridViewRow gvr = grid1.Rows[i];
+                    using (SqlDataAdapter sda = new SqlDataAdapter())
                     {
-                        if (gvr.RowType == DataControlRowType.DataRow)
-                        {
-
-                            Label lblLock = (Label)gvr.FindControl("lblLock");
-                            if (i == 0)
-                            {
-                                lblLock.Visible = false;
-                            }
-
-                        }
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Connection = con;
+                        con.Open();
+                        LevUnlock = Convert.ToInt32(cmd.ExecuteScalar());
                     }
                 }
             }
 
+            int i = 0;
+            for (i = 0; i <=LevUnlock; i++)
+            {
+                GridViewRow gvr = grid1.Rows[i];
+                {
+                    if (gvr.RowType == DataControlRowType.DataRow)
+                    {
 
+                        Label lblLock = (Label)gvr.FindControl("lblLock");
+                        lblLock.Visible = false;
+
+                    }
+                }
+            }
 
             string dname = "";
             string constr2 = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
@@ -113,26 +122,22 @@ public partial class Levels : System.Web.UI.Page
     protected void rptLevel_ItemSelect(object source, RepeaterCommandEventArgs e)
     {
         int Lno = Convert.ToInt32(e.CommandName);
-        int lastLevel = Convert.ToInt32(Session["LASTLEVEL"]);
-
             GridViewRow gvr = grid1.Rows[Lno-1];
+        {
+            if (gvr.RowType == DataControlRowType.DataRow)
             {
-                if (gvr.RowType == DataControlRowType.DataRow)
+
+                Label lblLock = (Label)gvr.FindControl("lblLock");
+                if (lblLock.Visible == false)
                 {
-
-                    Label lblLock = (Label)gvr.FindControl("lblLock");
-                    if (lblLock.Visible == false)
-                    {
-                        Session["QUESTION"] = e.CommandArgument;
-                        Response.Redirect("PlayPage.aspx");
-                    }
-                    else
-                    {
-                        Response.Redirect("Levels.aspx");
-                    }
-
+                    Session["QUESTION"] = e.CommandArgument;
+                    Response.Redirect("PlayPage.aspx");
+                }
+                else
+                {
+                    Response.Redirect("Levels.aspx");
                 }
             }
-        
+        }   
     }
 }
