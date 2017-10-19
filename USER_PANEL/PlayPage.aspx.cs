@@ -345,6 +345,7 @@ public partial class PlayPage : System.Web.UI.Page
                         sqlDa.SelectCommand = new SqlCommand(selectStatement, conn);
                         SqlCommandBuilder cb = new SqlCommandBuilder(sqlDa);
                         sqlDa.Fill(dt);
+                        
                        foreach (DataRow row in dt.Rows)
                        {
                             if ((score - (Lno * 10)) < Convert.ToInt32(row[2]))
@@ -353,6 +354,7 @@ public partial class PlayPage : System.Web.UI.Page
                                 int newRank = Convert.ToInt32(value) + 1;
                                 row["Rank"] = newRank;
                             }
+                            
                         }
                         sqlDa.UpdateCommand = cb.GetUpdateCommand();
                         sqlDa.Update(dt);

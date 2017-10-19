@@ -37,6 +37,10 @@ public partial class USER_PANEL_LeaderBoard : System.Web.UI.Page
                         dt.Rows.Add(dr);
                     }
 
+                    DataView dv = new DataView();
+                    dv = dt.DefaultView;
+                    dv.Sort = "Rank";
+
                     grid1.DataSource = dt;
                     grid1.DataBind();
                 }
@@ -48,4 +52,5 @@ public partial class USER_PANEL_LeaderBoard : System.Web.UI.Page
             Response.Redirect("Login.aspx");
         }
     }
+
 }

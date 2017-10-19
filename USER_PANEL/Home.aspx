@@ -46,11 +46,12 @@
                 <asp:Button runat="server" style="float:right" ID="btnLeaderBoard" Text="Leader Board" Onclick="btnLeaderBoard_Click" />
             </div>
         </nav>
-
+        <br />
+        <br />
+        <br />
         <div>
             <br />
             <br />
-
             <asp:Label CssClass="label" ID="lblUsername" runat="server" Text="Welcome "></asp:Label>
             <br />
             <br />

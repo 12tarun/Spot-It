@@ -11,7 +11,7 @@
         <div>
             <asp:GridView ID="grid1" runat="server" AutoGenerateColumns="False" CellPadding="4" GridLines="None">
                 <Columns>
-                    <asp:TemplateField HeaderText="RANK">
+                    <asp:TemplateField HeaderText="RANK" >
                         <ItemTemplate>
                             <asp:Label ID="lblRank" runat="server" Text='<%#Bind("Rank") %>'></asp:Label>
                         </ItemTemplate>
